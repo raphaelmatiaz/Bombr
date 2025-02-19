@@ -1,0 +1,54 @@
+
+.LoginProviders {
+    width: 50%;
+}
+
+.icon {
+    position: absolute;
+    right: 16px;
+    bottom: 12px;
+}
+
+.googleIcon {
+    width: 24px;
+    height: 24px;
+    background-image: url('./googleIcon.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.facebookIcon {
+    width: 24px;
+    height: 24px;
+    background-image: url('./facebookIcon.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.githubIcon {
+    width: 24px;
+    height: 24px;
+    background-image: url('./githubIcon.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.loginProviderButton {
+    border-radius: var(--border-radiusA);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    padding: var(--button-padding);
+    margin-bottom: 8px;
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.loginProviderButton:hover {
+    cursor: pointer;
+    background-color: var(--color-greyB);
+}
