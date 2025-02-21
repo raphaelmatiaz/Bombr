@@ -1,0 +1,6 @@
+.scrollRegion {
+    border-left: 1px solid var(--color-greyA);
+    border-right: 1px solid var(--color-greyA);
+    width: 500px;
+    /* box-shadow: 0 0 32px rgba(0, 0, 0, 0.137); */
+}

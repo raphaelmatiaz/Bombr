@@ -1,0 +1,16 @@
+
+.navItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 2.4rem;
+    text-decoration: none;
+    margin-top: 1.6rem;
+    color: var(--color-secondary);
+    gap: 12px;
+    transition: transform 0.4s;
+}
+
+.navItem:hover {
+    transform: translateX(8px);
+}

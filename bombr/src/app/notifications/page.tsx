@@ -1,8 +1,17 @@
+import Navbar from '../../components/Navbar/navbar.tsx'
+import ScrollRegion from '@/components/scrollRegion/scrollRegion.tsx'
+import MainSection from '@/components/Main/main.tsx'
 
 function Notifications() {
     return(
-        <div>
-            <h1>Notifications</h1>
+        <div className="styles.notificationsWrapper">
+            <Navbar></Navbar>
+            <MainSection>
+                <ScrollRegion>
+                    <></>
+                </ScrollRegion>
+            </MainSection>
+            
         </div>
     )
 }

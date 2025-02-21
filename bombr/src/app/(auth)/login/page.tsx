@@ -1,5 +1,6 @@
 import LoginProviders from '../../../components/LoginProviders/LoginProviders.tsx'
 import Logo from '../../../components/Logo/Logo.tsx'
+import Link from 'next/link'
 
 import styles from './login.module.css'
 
@@ -21,7 +22,7 @@ function Login() {
                 <hr className={styles.horizontalRow} />
                 <LoginProviders></LoginProviders>
                 <hr className={styles.horizontalRow} />
-                <p className={styles.p}>Don't have an account? <a className={styles.anchor} href="">Sign up</a></p>
+                <p className={styles.p}>Don't have an account? <Link className={styles.anchor} href="/register">Sign up</Link></p>
             </main>
         </div>
     )

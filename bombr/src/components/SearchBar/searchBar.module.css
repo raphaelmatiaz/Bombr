@@ -1,0 +1,14 @@
+.searchBar {
+    border: none;
+    background-color: var(--color-greyA);
+    height: 4rem;
+    width: 51.2rem;
+    border-radius: 32px;
+    margin: 64px 0;
+    background-image: url("/inputSearch.svg");
+    background-repeat: no-repeat;
+    background-position: 12px;
+    font-size: 1.6rem;
+    padding: 0 0 0 52px;
+    /* position: fixed; */
+}

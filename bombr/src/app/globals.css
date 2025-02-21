@@ -13,6 +13,14 @@
   --border-radiusA: 50px;
   --input-padding: 16px 16px 16px 24px;
   --button-padding: 16px 16px 16px 24px;
+
+  --box-shadowA: 0 0 32px rgba(0, 0, 0, 0.137);
+  --box-shadowB: 0 0 64px rgba(0, 0, 0, 0.277);
+
+  --scrollbar-track-color: #ffffff;
+  --scrollbar-thumb-color: #000000;
+  --scrollbar-size: 16px;
+  --scrollbar-radius: 20px;
 }
 
 *, *::before, *::after {
@@ -23,12 +31,38 @@
 
 html {
   font-size: var(--font-size);
-  font-family: 'Poppins', sans-serif;
 }
 
 body {
   background-color: var(--white);
   font-family: 'Inter Variable', sans-serif;
-  width: 100vw;
+  max-width: 100vw;
   height: 100vh;
+}
+
+
+body::-webkit-scrollbar {
+  width: var(--scrollbar-size)
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--scrollbar-track-color);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  border-radius: var(--scrollbar-radius);
+  border: 4px solid var(--scrollbar-track-color);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  body {
+    scrollbar-color: var(--sb-thumb-color)
+                     var(--sb-track-color);
+  }
+}
+
+.currentRoute:after {
+  content: "☜";
+  margin-left: 8px;
 }
