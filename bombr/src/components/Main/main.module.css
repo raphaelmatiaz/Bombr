@@ -1,7 +1,14 @@
 .main {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    gap: 10%;
+}
+
+.navBarPlaceholder {
+    width: 20vw;
+    min-width: 256px;
+    height: 100vh;
 }

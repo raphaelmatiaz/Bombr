@@ -8,6 +8,8 @@
   --color-greyA: #F1F1F1;
   --color-greyB: #E2E2E2;
   --color-cta: #7A00F4;
+  --gradient-placeholder: linear-gradient(to bottom left, #E2E2E2, #949494);
+
 
   --font-size: 62.5%;
   --border-radiusA: 50px;
@@ -16,6 +18,7 @@
 
   --box-shadowA: 0 0 32px rgba(0, 0, 0, 0.137);
   --box-shadowB: 0 0 64px rgba(0, 0, 0, 0.277);
+  --box-shadowC: 0 0px 4px rgba(0, 0, 0, 0.819);
 
   --scrollbar-track-color: #ffffff;
   --scrollbar-thumb-color: #000000;

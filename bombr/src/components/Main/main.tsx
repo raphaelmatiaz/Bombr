@@ -8,6 +8,7 @@ interface MainSectionProps {
 const MainSection = ({ children }: MainSectionProps) => {
     return(
         <main className={styles.main}>
+          <div className={styles.navBarPlaceholder}></div>
             {children}
       </main>
     )
