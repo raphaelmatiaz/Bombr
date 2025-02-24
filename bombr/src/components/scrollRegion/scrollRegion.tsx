@@ -8,7 +8,7 @@ interface ScrollRegionProps {
 const ScrollRegion = ({ children }: ScrollRegionProps) => {
   return (
     <div className={styles.scrollRegion}>
-      <h1>scrollRegion</h1>
+      <p>scrollRegion</p>
       {children}
     </div>
   );

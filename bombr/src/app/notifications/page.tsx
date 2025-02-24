@@ -1,6 +1,7 @@
-import Navbar from '../../components/Navbar/navbar.tsx'
+import Navbar from '@/components/Navbar/navbar.tsx'
 import ScrollRegion from '@/components/scrollRegion/scrollRegion.tsx'
 import MainSection from '@/components/Main/main.tsx'
+import Aside from '@/components/Aside/Aside.tsx'
 
 function Notifications() {
     return(
@@ -10,6 +11,7 @@ function Notifications() {
                 <ScrollRegion>
                     <></>
                 </ScrollRegion>
+                <Aside></Aside>
             </MainSection>
             
         </div>

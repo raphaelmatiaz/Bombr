@@ -6,10 +6,12 @@ import Aside from "@/components/Aside/Aside"
 import styles from './profile.module.css'
 import React, { useState } from "react";
 
-function Profile() {
+async function UserProfile({ params }: {params: {username: string}}) {
 
     const [postListType, setPostListType] = useState("received")
     const [barPosition, setBarPosition] = useState("0")
+
+    const { username } = await params;
 
     const ListSentPosts = () => {
         setPostListType("sent")
@@ -21,7 +23,6 @@ function Profile() {
         setBarPosition("0")   
     }
 
-
     return (
         <div className={styles.componentWrapper}>
             <Navbar></Navbar>
@@ -31,7 +32,7 @@ function Profile() {
                         <div className={styles.profilePic}></div>
                         <div className={styles.profileInfo}>
                             <div className={styles.nameInfoWrapper}>
-                                <h1 className={styles.userNickname}>Profile_Username</h1>
+                                <h1 className={styles.userNickname}>{username}</h1>
                                 <h2 className={styles.userFullName}>Full Name</h2>
                             </div>
                             <div className={styles.globalStatsWrapper}>
@@ -75,7 +76,6 @@ function Profile() {
                             <img src="/image.png" alt="Description" />
                             <img src="/image.png" alt="Description" />
                             <img src="/image.png" alt="Description" />
-                            {/* <img src="/image.png" alt="Description" />
                             <img src="/image.png" alt="Description" />
                             <img src="/image.png" alt="Description" />
                             <img src="/image.png" alt="Description" />
@@ -85,7 +85,8 @@ function Profile() {
                             <img src="/image.png" alt="Description" />
                             <img src="/image.png" alt="Description" />
                             <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" /> */}
+                            <img src="/image.png" alt="Description" />
+                            <img src="/image.png" alt="Description" />
                         </ul>
                     </main>
                 </div>
@@ -94,4 +95,4 @@ function Profile() {
     )
 }
 
-export default Profile
+export default UserProfile

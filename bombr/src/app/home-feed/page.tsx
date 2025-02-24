@@ -16,7 +16,6 @@ function Home() {
         <Navbar></Navbar>
 
         <ScrollRegion>
-          <p>addada</p>
           <Post></Post>
           <Post></Post>
           <Post></Post>
