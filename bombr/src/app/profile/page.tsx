@@ -21,7 +21,6 @@ function Profile() {
         setBarPosition("0")   
     }
 
-
     return (
         <div className={styles.componentWrapper}>
             <Navbar></Navbar>
@@ -67,25 +66,36 @@ function Profile() {
                         </div>
                     </nav>
                     <main>
-                        <ul className={styles.contentList}>
+                    <ul className={styles.contentList}>
+                        {postListType === "received" && (
+                            <>
                             <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            {/* <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image.png" alt="Description" /> */}
+                            <img src="/image2.jpg" alt="Description" />
+                            <img src="/image3.jpg" alt="Description" />
+                            <img src="/image4.jpg" alt="Description" />
+                            <img src="/image5.jpg" alt="Description" />
+                            <img src="/image6.jpg" alt="Description" />
+                            <img src="/image7.jpg" alt="Description" />
+                            <img src="/image8.jpg" alt="Description" />
+                            <img src="/image9.jpg" alt="Description" />
+                            <img src="/image10.jpg" alt="Description" />
+                            <img src="/image11.jpg" alt="Description" />
+                            </>
+                        )}
+
+                        {postListType === "sent" && (
+                            <>
+                            <img src="/chillguy.jpg" alt="Description" />
+                            <img src="/chillguy.jpg" alt="Description" />
+                            <img src="/chillguy.jpg" alt="Description" />
+                            <img src="/chillguy.jpg" alt="Description" />
+                            <img src="/chillguy.jpg" alt="Description" />
+                            <img src="/chillguy.jpg" alt="Description" />
+                            <img src="/chillguy.jpg" alt="Description" />
+                            <img src="/chillguy.jpg" alt="Description" />
+                            <img src="/chillguy.jpg" alt="Description" />
+                            </>
+                        )}
                         </ul>
                     </main>
                 </div>
