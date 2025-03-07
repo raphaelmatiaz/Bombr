@@ -1,7 +1,6 @@
 import LoginProviders from '../../../components/LoginProviders/LoginProviders.tsx'
 import Logo from '../../../components/Logo/Logo.tsx'
 import Link from 'next/link'
-
 import styles from './login.module.css'
 
 function Login() {
