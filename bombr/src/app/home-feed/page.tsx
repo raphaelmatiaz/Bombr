@@ -14,16 +14,16 @@ function Home() {
       <MainSection>
 
         <Navbar></Navbar>
-
-        <ScrollRegion>
-          <Post></Post>
-          <Post></Post>
-          <Post></Post>
-          <Post></Post>
-          <Post></Post>
-          <Post></Post>
-        </ScrollRegion>
-
+          <ScrollRegion>
+            <div className={styles.scrollRegionStyleWrapper}>
+              <Post></Post>
+              <Post></Post>
+              <Post></Post>
+              <Post></Post>
+              <Post></Post>
+              <Post></Post>
+            </div>
+          </ScrollRegion>
         <Aside></Aside>
 
       </MainSection>
@@ -32,3 +32,6 @@ function Home() {
 }
 
 export default Home
+
+    /* border-left: 1px solid var(--color-greyA);
+    border-right: 1px solid var(--color-greyA); */

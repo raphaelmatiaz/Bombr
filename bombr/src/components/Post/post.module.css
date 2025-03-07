@@ -74,6 +74,11 @@
     margin-left: 0.8rem;
 }
 
+.postButtonIcon {
+    transition: scale 0.1s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
 .postButtonIcon:hover {
     cursor: pointer;
+    scale: 1.1;
 }

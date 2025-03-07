@@ -4,6 +4,7 @@ import MainSection from '@/components/Main/main.tsx';
 import ScrollRegion from '@/components/scrollRegion/scrollRegion.tsx';
 import SearchBar from  '@/components/SearchBar/searchBar.tsx'
 import Aside from '@/components/Aside/Aside.tsx';
+import SuggestedProfile from '@/components/suggestedProfile/suggestedProfile';
 
 function Home() {
   return (
@@ -13,7 +14,23 @@ function Home() {
         <span>
           <SearchBar></SearchBar>
           <ScrollRegion>
-            <p>test</p>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
+            <SuggestedProfile></SuggestedProfile>
           </ScrollRegion>
         </span>
         <Aside></Aside>

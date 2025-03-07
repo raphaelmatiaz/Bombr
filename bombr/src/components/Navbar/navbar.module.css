@@ -2,7 +2,7 @@
 .navBar {
     background-color: var(--color-primary);
     width: 20vw;
-    min-width: 256px;
+    min-width: 296px;
     height: 100vh;
     display: flex;
     flex-direction: column;
