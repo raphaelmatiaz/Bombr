@@ -28,6 +28,10 @@
     background: var(--gradient-placeholder);
     box-shadow: var(--box-shadowC);
     margin-right: 16px;
+    background-image: url("/default-profile.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
 }
 
 .profileUsername {

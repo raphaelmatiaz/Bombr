@@ -1,12 +1,16 @@
 .main {
     width: 100vw;
-    max-width: 100vw;
-    height: 100vh;
+    height: fit-content;
+    max-height: 100vh;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    gap: 10%;
-    /* overflow-x: hidden; */
+    justify-content: space-between;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    /* z-index: 900000000; */
+    /* background-color: rgba(255, 0, 0, 0.213); */
+    /* border: 4px dotted red; */
 }
 
 .navBarPlaceholder {
@@ -15,3 +19,38 @@
     height: 100vh;
 }
 
+.mainContent {
+    /* border: 8px dotted red;
+    background-color: blueviolet; */
+    display: flex;
+    flex: 5;
+    flex-direction: row;
+    justify-content: space-between;
+    height: fit-content;
+    display: flex;
+}
+
+.mainChildren {
+    /* background-color: rgb(0, 255, 60); */
+    flex: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid black; */
+}
+
+.asideWrapper {
+    /* background-color: rgb(245, 0, 147); */
+    flex: 1.5;
+    display: flex;
+    justify-content: center;
+    box-shadow: var(--box-shadowA);
+}
+
+@media (max-width: 1230px) {
+   
+    .asideWrapper {
+        flex: 0;
+    }
+
+}

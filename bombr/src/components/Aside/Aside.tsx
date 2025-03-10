@@ -6,7 +6,7 @@ import styles from './aside.module.css'
 
 const Aside = () => {
     return(
-        <span className={styles.asideWrapper}>
+        <span className={`${styles.asideWrapper}`} id="getOutaHere">
 
             <LinkToProfile></LinkToProfile>
 

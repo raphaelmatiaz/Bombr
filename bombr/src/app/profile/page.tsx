@@ -24,7 +24,7 @@ function Profile() {
     return (
         <div className={styles.componentWrapper}>
             <Navbar></Navbar>
-            <MainSection>
+            <main className={styles.mainContent}>
                 <div className={styles.profileWrapper}>
                     <header className={styles.profileHeader}>
                         <div className={styles.profilePic}></div>
@@ -99,7 +99,7 @@ function Profile() {
                         </ul>
                     </main>
                 </div>
-            </MainSection>
+            </main>
         </div>
     )
 }

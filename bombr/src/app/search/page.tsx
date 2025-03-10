@@ -9,7 +9,6 @@ import SuggestedProfile from '@/components/suggestedProfile/suggestedProfile';
 function Home() {
   return (
     <div>
-      <Navbar></Navbar>
       <MainSection>
         <span>
           <SearchBar></SearchBar>
@@ -33,7 +32,6 @@ function Home() {
             <SuggestedProfile></SuggestedProfile>
           </ScrollRegion>
         </span>
-        <Aside></Aside>
       </MainSection>
     </div>
   );

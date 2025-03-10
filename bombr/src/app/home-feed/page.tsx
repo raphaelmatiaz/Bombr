@@ -11,9 +11,8 @@ import Aside from '@/components/Aside/Aside';
 function Home() {
   return (
     <div className={styles.homeview}>
-      <MainSection>
-
-        <Navbar></Navbar>
+      
+        <MainSection>
           <ScrollRegion>
             <div className={styles.scrollRegionStyleWrapper}>
               <Post></Post>
@@ -24,9 +23,8 @@ function Home() {
               <Post></Post>
             </div>
           </ScrollRegion>
-        <Aside></Aside>
+        </MainSection>
 
-      </MainSection>
     </div>
   );
 }

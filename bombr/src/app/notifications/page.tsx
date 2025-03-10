@@ -8,7 +8,6 @@ import styles from './notifications.module.css'
 function Notifications() {
     return(
         <div className="styles.notificationsWrapper">
-            <Navbar></Navbar>
             <MainSection>
                 <ScrollRegion>
                     <div className={styles.scrollRegionStyleWrapper}>
@@ -22,9 +21,7 @@ function Notifications() {
                         <Notification></Notification>
                     </div>
                 </ScrollRegion>
-                <Aside></Aside>
             </MainSection>
-            
         </div>
     )
 }

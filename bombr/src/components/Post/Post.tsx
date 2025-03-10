@@ -10,7 +10,7 @@ const Post = () => {
                 </div>
                 <p className={styles.bombedBy}>got bombed by...</p>
                 <div className={styles.userProfileWrapper}>
-                    <img className={styles.userProfilePic} src="" alt="" />
+                    <div className={styles.userProfilePic}></div>
                     <p className={styles.userProfileUsername}>stonker6000K</p>
                 </div>
             </header>
@@ -19,8 +19,8 @@ const Post = () => {
                 <div className={styles.postText}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, accusamus? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia saepe assumenda soluta nisi veniam dolor impedit, sit corporis unde numquam?
                 </div>
                 <div className={styles.postButtonsWrapper}>
-                    <img className={styles.postButtonIcon} src="/like.svg" alt="" />
-                    <img className={styles.postButtonIcon} src="/comment.svg" alt="" />
+                    <img className={styles.postButtonIcon} src="/like.svg" alt="Like Icon" />
+                    <img className={styles.postButtonIcon} src="/comment.svg" alt="Comment Icon" />
                 </div>
             </footer>
         </div>

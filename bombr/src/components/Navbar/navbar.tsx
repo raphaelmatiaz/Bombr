@@ -15,6 +15,7 @@ const Navbar = () => {
                     <li><NavItem linkHref="/search" path="/search.svg" imgAlt="Search icon" text="Search"></NavItem></li>
                     <li><NavItem linkHref="/404" path="/newBomb.svg" imgAlt="New Bomb icon" text="New Bomb"></NavItem></li>
                     <li><NavItem linkHref="/notifications" path="/notifications.svg" imgAlt="Notifications icon" text="Notifications"></NavItem></li>
+                    <li><NavItem linkHref="/profile" path="/profile-icon.svg" imgAlt="Profile icon" text="My Profile"></NavItem></li>
                 </span>
                 <span className={styles.lastChild}>
                     <li><NavItem linkHref="/login" path="/logout.svg" imgAlt="Logout icon" text="Logout"></NavItem></li>

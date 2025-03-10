@@ -1,9 +1,27 @@
 
+.componentWrapper {
+    width: 100vw;
+    height: fit-content;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    /* z-index: 900000000; */
+    /* background-color: rgba(255, 0, 0, 0.213); */
+    /* border: 4px dotted red; */
+}
+
 .profileWrapper {
-    width: 50%;
-    min-width: 680px;
-    margin-left: 15vw;
+    /* width: 100%; */
+    height: fit-content;
+    width: fit-content;
+    /* max-width: 800px; */
     margin-top: 80px;
+    border: 4px dotted red;
+    padding: 0 20%;
 }
 
 .profileHeader {
@@ -33,7 +51,11 @@
     background-position: center;
     background-size: cover;
     margin-right: 80px;
-    /* background-image: url("someImage"); */
+
+    background-image: url("/default-profile.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
 }
 
 .userNickname {
@@ -78,7 +100,7 @@
 
 .contentList {
     /* column-count: 3; */
-    columns: 260px;
+    columns: 240px;
 }
 
 .contentList > img {
@@ -137,3 +159,69 @@
     border-radius: 16px;
 }
 
+
+#getOutaHere {
+    display: none;
+}
+
+
+
+
+/* =========== MAIN STUFF ========== */
+
+.main {
+    width: 100vw;
+    height: fit-content;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    /* z-index: 900000000; */
+    /* background-color: rgba(255, 0, 0, 0.213); */
+    /* border: 4px dotted red; */
+}
+
+.navBarPlaceholder {
+    width: 20vw;
+    min-width: 256px;
+    height: 100vh;
+}
+
+.mainContent {
+
+    display: flex;
+    flex-direction: column;
+    flex: 5;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    border: 4px dotted purple;
+}
+
+.mainChildren {
+    /* background-color: rgb(0, 255, 60); */
+    flex: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid black; */
+}
+
+.asideWrapper {
+    /* background-color: rgb(245, 0, 147); */
+    flex: 1.5;
+    display: flex;
+    justify-content: center;
+    box-shadow: var(--box-shadowA);
+}
+
+@media (max-width: 1230px) {
+   
+    .asideWrapper {
+        flex: 0;
+    }
+
+}
