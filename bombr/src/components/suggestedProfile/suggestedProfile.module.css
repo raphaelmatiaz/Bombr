@@ -34,3 +34,22 @@
     position: relative;
     bottom: 8px;
 }
+
+.declareWarButton {
+    border: none;
+    color: var(--color-cta);
+    background: none;
+    position: relative;
+    bottom: 6px;
+    /* margin-right: 16px; */
+}
+
+.componentWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    gap: 32px;
+    justify-content: space-between;
+    /* border: 1px dotted red; */
+}

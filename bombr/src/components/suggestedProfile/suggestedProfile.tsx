@@ -3,12 +3,15 @@ import Link from 'next/link'
 
 const suggestedProfile = () => {
     return(
-        <Link className={styles.link} href="/user/suggestedUser">
-            <div className={styles.suggestedProfile}>
-                <div className={styles.profileImage}></div>
-                <p className={styles.profileUsername}>Suggested_User</p>
-            </div>
-        </Link>
+        <div className={styles.componentWrapper}>
+            <Link className={styles.link} href="/user/suggestedUser">
+                <div className={styles.suggestedProfile}>
+                    <div className={styles.profileImage}></div>
+                    <p className={styles.profileUsername}>Suggested_User</p>
+                </div>
+            </Link>
+            <button className={styles.declareWarButton}>Declare War</button>
+        </div>
     )
 }
 
