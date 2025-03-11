@@ -4,3 +4,4 @@ node_modules/next/next-swc-fallback/@next/swc-linux-x64-gnu/package.json
 node_modules/next/next-swc-fallback/@next/swc-linux-x64-gnu/README.md
 node_modules/next/next-swc-fallback/@next/swc-linux-x64-musl/package.json
 node_modules/next/next-swc-fallback/@next/swc-linux-x64-musl/README.md
+.env*
