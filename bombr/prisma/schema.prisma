@@ -8,9 +8,35 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  fullName  String
-  username  String    @unique
-  password  String
+  id Int @id @default(autoincrement())
+  fullName String
+  username String @unique
+  email String @unique
+  password String
+  profile Profile?
+  profileId Int?
+  followers Profile? @relation("Followers", fields: [profileId], references: [id], map: "User_followers_profileId_fkey")
+  following Profile? @relation("Following", fields: [profileId], references: [id], map: "User_following_profileId_fkey")
+}
+
+model Profile {
+  id Int @id @default(autoincrement())
+  PostsReceived Post[] @relation("ReceivedPosts")
+  PostsSent Post[] @relation("SentPosts")
+  Followers User[] @relation("Followers")
+  Following User[] @relation("Following")
+  bio String
+
+  userId Int @unique
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Post {
+  id Int @id @default(autoincrement())
+  content   String?      // Stores the URL of an image, GIF, or video
+  message String?
+  receiverId Int
+  receiver Profile @relation("ReceivedPosts", fields: [receiverId], references: [id])
+  senderId Int
+  sender Profile @relation("SentPosts", fields: [senderId], references: [id])
 }
