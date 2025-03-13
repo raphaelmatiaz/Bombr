@@ -2,12 +2,13 @@ import LoginProviders from '../../../components/LoginProviders/LoginProviders.ts
 import Logo from '../../../components/Logo/Logo.tsx'
 import Link from 'next/link'
 import styles from './login.module.css'
-import Dashboard from '../../../../components/Dashboard.tsx'
+import Dashboard from '../../../components/Auth/Dashboard.tsx'
 
 function Login() {
+
     return(
         <div className={styles.loginWrapper}>
-            <Dashboard></Dashboard>
+            {/* <Dashboard></Dashboard> */}
 
             <aside className={styles.asideArt}  style={{backgroundImage: "./login.png"}}></aside>
             

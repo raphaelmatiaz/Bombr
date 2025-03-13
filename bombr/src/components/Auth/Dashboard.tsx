@@ -18,7 +18,7 @@ const Dashboard = () => {
                 <>
                     <h1>You're not logged in</h1>
                     <button onClick={() => signIn("google")}>Sign In with Google</button>
-                    <button onClick={() => signIn("github")}>Sign In with Github</button>
+                    <button onClick={() => signIn("github", { callbackUrl: "/home-feed" })}>Sign In with Github</button>
                 </>
             )}
         </>

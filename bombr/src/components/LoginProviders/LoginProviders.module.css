@@ -12,7 +12,7 @@
 .googleIcon {
     width: 24px;
     height: 24px;
-    background-image: url('./googleIcon.png');
+    background-image: url('/icon-google.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -21,7 +21,7 @@
 .facebookIcon {
     width: 24px;
     height: 24px;
-    background-image: url('./facebookIcon.png');
+    background-image: url('/icon-discord.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -30,7 +30,7 @@
 .githubIcon {
     width: 24px;
     height: 24px;
-    background-image: url('./githubIcon.png');
+    background-image: url('/icon-github.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;

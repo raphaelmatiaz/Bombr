@@ -1,7 +1,9 @@
+"use client"
 import Logo from '../Logo/Logo.tsx'
 import NavItem from '../NavItem/navItem.tsx'
 import styles from './navbar.module.css'
 import Link from 'next/link'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 const Navbar = () => {
     return(
@@ -18,7 +20,11 @@ const Navbar = () => {
                     <li><NavItem linkHref="/profile" path="/profile-icon.svg" imgAlt="Profile icon" text="My Profile"></NavItem></li>
                 </span>
                 <span className={styles.lastChild}>
-                    <li><NavItem linkHref="/login" path="/logout.svg" imgAlt="Logout icon" text="Logout"></NavItem></li>
+                    <li>
+                        {/* <button className={styles.logoutButton}> */}
+                            <NavItem onClickEvent={() => signOut({ callbackUrl: "/login" })} linkHref="/login" path="/logout.svg" imgAlt="Logout icon" text="Logout"></NavItem>
+                        {/* </button> */}
+                    </li>
                 </span>
             </ul>
         </nav>
