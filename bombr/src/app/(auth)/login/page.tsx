@@ -13,7 +13,7 @@ function Login() {
             <aside className={styles.asideArt}  style={{backgroundImage: "./login.png"}}></aside>
             
             <main className={styles.formWrapper}>
-                <Logo></Logo>
+                <div className={styles.logo}></div>
                 <form className={styles.form} action="">
                     <input className={styles.input} type="email" placeholder='Phone number, username or email' />
                     <input className={styles.input} type="password" placeholder='Password' />

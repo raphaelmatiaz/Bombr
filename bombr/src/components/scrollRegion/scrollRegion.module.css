@@ -4,6 +4,18 @@
     /* margin-left: 10%; */
 }
 
-@media only screen and (max-width: 600px) {
+@media (max-width: 840px) {
 
+    .scrollRegion {
+      margin-top: 64px;
+}
+}
+@media only screen and (max-width: 630px) { /*517*/
+
+  .scrollRegion {
+    width: 100%;
+
+    background-color: white;
   }
+
+}

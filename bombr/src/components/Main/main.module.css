@@ -54,3 +54,16 @@
     }
 
 }
+
+@media (max-width: 840px) {
+   
+    .asideWrapper {
+        flex: 0;
+    }
+
+    .main {
+        flex-direction: column-reverse;
+        min-height: 100vh;
+        height: fit-content;
+    }
+}

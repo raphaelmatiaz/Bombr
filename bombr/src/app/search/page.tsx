@@ -11,8 +11,8 @@ function Home() {
     <div>
       <MainSection>
         <span>
-          <SearchBar></SearchBar>
           <ScrollRegion>
+          <SearchBar></SearchBar>
             <SuggestedProfile></SuggestedProfile>
             <SuggestedProfile></SuggestedProfile>
             <SuggestedProfile></SuggestedProfile>

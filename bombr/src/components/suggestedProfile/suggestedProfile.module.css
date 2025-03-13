@@ -40,7 +40,7 @@
     color: var(--color-cta);
     background: none;
     position: relative;
-    bottom: 6px;
+    bottom: 8px;
     /* margin-right: 16px; */
 }
 
@@ -51,5 +51,6 @@
     width: fit-content;
     gap: 32px;
     justify-content: space-between;
+    /* margin-left: 32px; */
     /* border: 1px dotted red; */
 }

@@ -26,6 +26,65 @@
     justify-content: space-between;
 }
 
-.logoutButton {
-    
+.mobileTabletTopNav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 64px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid var(--color-greyA);
+    display: none;
+}
+
+@media (max-width: 840px) {
+
+    .navBar {
+        position: sticky;
+        width: 100%;
+        height: fit-content;
+        bottom: 0;
+        border-top: 1px solid var(--color-greyA);
+        padding: 0;
+        z-index: 99999999999;
+        box-shadow: none;
+    }
+
+    .ul {
+        width: 100%;
+    }
+
+    .ul > span {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 8px 0;
+        /* border: 4px dotted red; */
+        width: 100%;
+        position: relative;
+    }
+
+    .lastChild > li {
+        position: fixed;
+        top: 0;
+        left: 16px;
+        padding: 0;
+        margin: 0;
+        z-index: 10;
+    }
+
+    .notificationsListItem {
+        position: fixed;
+        top: 0;
+        right: 16px;
+        padding: 0;
+        margin-bottom: 32px;
+        z-index: 10;
+    }
+
+    .mobileTabletTopNav {
+       display: block;
+    }
+
 }

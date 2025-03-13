@@ -14,3 +14,15 @@
 .navItem:hover {
     transform: translateX(8px);
 }
+
+@media (max-width: 840px) {
+
+.navItemWrapper p {
+    display: none;
+}
+
+.navItem:hover {
+    transform: translateX(0);
+}
+    
+}

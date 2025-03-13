@@ -2,10 +2,17 @@
 .logo {
     height: 8rem;
     width: 16rem;
-    background-image: url("./BombrLogo.png");
+    background-image: url("/BombrLogo.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
     margin-bottom: 16px;
     /* border: 1px solid black; */
+}
+
+@media (max-width: 840px) {
+
+    .logo {
+        display: none;
+    }
 }
