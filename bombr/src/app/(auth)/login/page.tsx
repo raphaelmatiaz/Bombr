@@ -7,7 +7,32 @@ import Dashboard from '../../../components/Auth/Dashboard.tsx'
 import ClickSpark from '../../../blocks/Animations/ClickSpark/ClickSpark.tsx'
 import SplashCursor from '../../../blocks/Animations/SplashCursor/SplashCursor.tsx'
 import Particles from '../../../blocks/Backgrounds/Particles/Particles.tsx';
+import { redirect } from "next/navigation";
+import { useState } from 'react'
+import { signIn } from 'next-auth/react'
 function Login() {
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+  
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+  
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+  
+      if (result?.error) {
+        console.error("Login failed:", result.error);
+        redirect("/login");
+      } else {
+        redirect("/home-feed");
+      }
+    };
+  
 
     return(
         <ClickSpark
@@ -39,11 +64,12 @@ function Login() {
                 
                 <main className={styles.formWrapper}>
                     <div className={styles.logo}></div>
-                    <form className={styles.form} action="">
-                        <input className={styles.input} type="email" placeholder='Phone number, username or email' />
-                        <input className={styles.input} type="password" placeholder='Password' />
+
+                    <form className={styles.form} onSubmit={handleSubmit}>
+                        <input className={styles.input} type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} required /> 
+                        <input className={styles.input} type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} required />
                         <a className={`${styles.forgotPassword} ${styles.anchor}`} href="">forgot password?</a>
-                        <button className={styles.loginButton}>Login</button>
+                        <button className={styles.loginButton} type='submit'>Login</button>
                     </form>
                     <p className={styles.or}>Or</p>
                     <hr className={styles.horizontalRow} />
