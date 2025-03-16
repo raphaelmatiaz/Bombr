@@ -16,7 +16,7 @@ const Navbar = () => {
                 <span>
                     <li><NavItem linkHref="/home-feed" path="/home.svg" imgAlt="Home icon" text="Home"></NavItem></li>
                     <li><NavItem linkHref="/search" path="/search.svg" imgAlt="Search icon" text="Search"></NavItem></li>
-                    <li><NavItem linkHref="/404" path="/newBomb.svg" imgAlt="New Bomb icon" text="New Bomb"></NavItem></li>
+                    <li><NavItem linkHref="/new-bomb" path="/newBomb.svg" imgAlt="New Bomb icon" text="New Bomb"></NavItem></li>
                     <li className={styles.notificationsListItem}><NavItem linkHref="/notifications" path="/notifications.svg" imgAlt="Notifications icon" text="Notifications"></NavItem></li>
                     <li><NavItem linkHref="/profile" path="/profile-icon.svg" imgAlt="Profile icon" text="My Profile"></NavItem></li>
                 </span>

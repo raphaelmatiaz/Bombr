@@ -5,6 +5,7 @@ import MainSection from "@/components/Main/main"
 import Aside from "@/components/Aside/Aside"
 import styles from './profile.module.css'
 import React, { useState } from "react";
+import ScrollRegion from "@/components/scrollRegion/scrollRegion"
 
 function Profile() {
 
@@ -25,6 +26,7 @@ function Profile() {
         <div className={styles.componentWrapper}>
             <Navbar></Navbar>
             <main className={styles.mainContent}>
+                
                 <div className={styles.profileWrapper}>
                     <header className={styles.profileHeader}>
                         <div className={styles.profilePic}></div>
@@ -65,7 +67,7 @@ function Profile() {
                             <div id="movingBar" className={styles.movingBar}></div>
                         </div>
                     </nav>
-                    <main>
+                    <main className={styles.profileContentWrapper}>
                     <ul className={styles.contentList}>
                         {postListType === "received" && (
                             <>
@@ -97,8 +99,11 @@ function Profile() {
                             </>
                         )}
                         </ul>
+                        
                     </main>
+                    
                 </div>
+                
             </main>
         </div>
     )

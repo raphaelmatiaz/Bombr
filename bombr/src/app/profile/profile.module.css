@@ -1,27 +1,30 @@
 
 .componentWrapper {
-    width: 100vw;
+    width: 100%;
     height: fit-content;
     max-height: 100vh;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    top: 0;
-    left: 0;
-    overflow: auto;
-    /* z-index: 900000000; */
-    /* background-color: rgba(255, 0, 0, 0.213); */
-    /* border: 4px dotted red; */
+    overflow-x: hidden;
+    /* border: 8px solid red; */
+}
+
+.mainContent {
+    display: flex;
+    flex: 5;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    /* border: 4px dotted purple; */
 }
 
 .profileWrapper {
-    /* width: 100%; */
     height: fit-content;
-    width: fit-content;
-    /* max-width: 800px; */
+    width: 100%;
     margin-top: 80px;
-    border: 4px dotted red;
-    padding: 0 20%;
+    /* border: 4px dotted red; */
+    padding: 0 204px;
 }
 
 .profileHeader {
@@ -29,53 +32,62 @@
     display: flex;
     flex-direction: row;
     min-height: 320px;
-}
-
-.profileInfo {
-    width: 100%;
-}
-
-.nameInfoWrapper {
-    margin-bottom: 24px;
+    /* border: 8px double brown; */
 }
 
 .profilePic {
-    min-width: 176px;
-    min-height: 176px;
-    width: 176px;
-    height: 176px;
+    min-width: 120px;
+    min-height: 120px;
+    width: 120px;
+    height: 120px;
     background: var(--gradient-placeholder);
     border-radius: 50%;
     border: 1px double var(--color-greyA);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
-    margin-right: 80px;
-
+    margin-right: 64px;
     background-image: url("/default-profile.png");
-    background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+    /* border: 8px double aquamarine; */
+}
+
+.profileInfo {
+    width: 100%;
+    /* border: 8px double hotpink; */
+}
+
+.nameInfoWrapper {
+    margin-bottom: 24px;
+    /* border: 8px double blue; */
+}
+
+.profileContentWrapper {
+    /* border: 8px double lightsalmon; */
+    width: 100%;
 }
 
 .userNickname {
     font-size: 3.2rem;
     font-weight: 700;
+    /* border: 8px double lawngreen; */
 }
 
 .userFullName {
     font-size: 1.6rem;
     font-weight: 500;
     opacity: 60%;
+    /* border: 8px double rgb(0, 252, 218); */
 }
 
 .globalStatsWrapper {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    gap: 64px;
+    gap: 15%;
     width: 100%;
     margin-bottom: 64px;
+    /* border: 8px double navy; */
 }
 
 .userProfileStatWrapper {
@@ -83,7 +95,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 2.4rem;
+    font-size: 1.6rem;
 }
 
 .userProfileStatWrapper > h3 {
@@ -100,7 +112,7 @@
 
 .contentList {
     /* column-count: 3; */
-    columns: 240px;
+    columns: 220px;
 }
 
 .contentList > img {
@@ -190,16 +202,6 @@
     height: 100vh;
 }
 
-.mainContent {
-
-    display: flex;
-    flex-direction: column;
-    flex: 5;
-    align-items: center;
-    justify-content: center;
-    height: fit-content;
-    border: 4px dotted purple;
-}
 
 .mainChildren {
     /* background-color: rgb(0, 255, 60); */
@@ -219,9 +221,108 @@
 }
 
 @media (max-width: 1230px) {
-   
+
     .asideWrapper {
         flex: 0;
     }
 
 }
+
+@media (max-width: 1360px) {
+
+    .profileWrapper {
+        max-width: 600px;
+        padding: 0 32px;
+    }
+
+    .globalStatsWrapper {
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+}
+
+@media (max-width: 840px) {
+
+    .componentWrapper {
+        align-items: center;
+        flex-direction: column-reverse;
+        min-height: 100vh;
+        height: fit-content;
+    }
+
+    .contentList {
+        /* column-count: 3; */
+        columns: 150px;
+    }
+}
+
+@media only screen and (max-width: 630px) { /*517*/
+
+    /* .scrollRegion {
+      width: 100%;
+  
+      background-color: white;
+    } */
+
+    .componentWrapper {
+        width: 100%;
+
+    }
+
+    .profileWrapper {
+        width: 100%;
+        padding: 0 16px;
+    }
+
+    .globalStatsWrapper {
+        justify-content: flex-start;
+        gap: 32px;
+        margin-bottom: 8vw;
+    }
+
+    .userProfileStatWrapper {
+        font-size: 2.5vw;
+    }
+
+    .userBio {
+        font-size: 3vw;
+        margin-bottom: 10vw;
+    }
+
+    .userNickname {
+        font-size: 5vw;
+        font-weight: 700;
+        /* border: 8px double lawngreen; */
+    }
+
+    .profilePic {
+        min-width: 20vw;
+        min-height: 20vw;
+        width: 20vw;
+        height: 20vw;
+        margin-right: 10vw;
+    }
+
+
+    .profileHeader {
+       
+        min-height: fit-content;
+        /* border: 8px double brown; */
+    }
+
+    .postListButton {
+        font-size: 3vw;
+    }
+  
+  }
+
+
+  @media only screen and (max-width: 450px) { /*517*/
+
+    .contentList {
+        /* column-count: 3; */
+        columns: 100px;
+    }
+
+  }
