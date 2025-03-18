@@ -13,7 +13,6 @@ function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
     const { data: session, status } = useSession();
     const router = useRouter();
     
@@ -24,24 +23,45 @@ function Login() {
     }
     }, [status, router]);
 
+// /*************  ✨ Codeium Command 🌟  *************/
+//     const handleSubmit = async (e: React.FormEvent) => {
+//       e.preventDefault();
+
+//       const result = await signIn("credentials", {
+//         email,
+//         password,
+//         redirect: false,
+//       });
+
+//       // Check if the sign-in attempt was successful
+//       if (result?.error) {
+//         console.log("error logging in", result.error);
+//         redirect("/home-feed");
+//       } else {
+//         console.log("login successful")
+//         redirect("/home-feed");
+//       }
+
+//     };
+
+const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
   
-    const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
   
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+    console.log("Sign-in result:", result);
   
-      if (result?.error) {
-        console.error("Login failed:", result.error);
-        redirect("/login");
-      } else {
-        redirect("/home-feed");
-      }
-    };
-  
+    if (result?.error) {
+      console.log("Error logging in:", result.error);
+    } else {
+      console.log("Login successful");
+      redirect("/home-feed");
+    }
+  };
 
     return(
         <ClickSpark

@@ -1,13 +1,36 @@
 import { NextAuthOptions } from "next-auth";
 
+import { PrismaAdapter } from "@auth/prisma-adapter"
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
 import prisma from "@/lib/prisma";
+import { image } from "framer-motion/client";
 
 export const authOptions: NextAuthOptions = {
+
+  // Aqui a cena dos callbacks, é basicamente: dentro do objeto 'callbacks', vais poder utilizar uma 
+  // serie de keywords, que correspondem a eventos relacionados com o nextAuth (ver docs para perceber 
+  // os que usasr). Dentro de 'said keywords', vais poder escrever logica que vais querer que seja 
+  // executada quando aquele callback é ativado. É um pouco como 'events'. O callback neste caso vai 
+  // ser tipo um 'onCLick', e depois associas logica a ser executada no trigger do 'onClick'
+  
+  // callbacks: {
+  //   session: async ({ session, user }) => {
+  //     console.log("Session", session);
+  //     console.log("User", user);
+  //     return {
+  //       ...session,
+  //       user: {
+  //         ...session.user,
+  //         id: user.id,
+  //       },
+  //     };
+  //   },
+  // },
+  adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -57,11 +80,62 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id.toString(),
           email: user.email,
-          name: user.fullName,
-          username: user.username,
+          name: user.name,
           profileId: user.profileId,
         };
       },
     }),
-  ]
+  ],
+  // GPT Suggestion
+  // callbacks: {
+  //   async session({ session, token }) {
+  //     session.user = token.user as typeof session.user; // Ensure session includes user data
+  //     return session;
+  //   },
+  //   async jwt({ token, user }) {
+  //     if (user) token.user = user;
+  //     return token;
+  //   },
+  // },
+  // secret: process.env.NEXTAUTH_SECRET,
+  // session: { strategy: "jwt" }, // Ensure correct session strategy
+  callbacks: {
+    async jwt({ token, user }) {
+      // If user exists (i.e., first login), assign its values to the token
+      if (user) {
+        token.user = user;
+      } else {
+        // Fetch the user from the database to include all fields
+        const dbUser = await prisma.user.findUnique({
+          where: { email: token.email ?? undefined }, // Ensure email is not null
+        });
+  
+        if (dbUser) {
+          token.user = {
+            id: dbUser.id,
+            email: dbUser.email,
+            fullname: dbUser.fullName,
+            username: dbUser.username,
+            emailVerified: dbUser.emailVerified,
+            image: dbUser.image,
+            name: dbUser.name,
+            profileId: dbUser.profileId,
+            // role: dbUser.role, // Example field
+            // createdAt: dbUser.createdAt, // Example field
+            // updatedAt: dbUser.updatedAt, // Example field
+            // Add any other fields you need
+          };
+        }
+      }
+      return token;
+    },
+  
+    async session({ session, token }) {
+      session.user = token.user as typeof session.user;
+      return session;
+    },
+  },
+  
+  secret: process.env.NEXTAUTH_SECRET,
+  session: { strategy: "jwt" }, // Ensure correct session strategy
 }

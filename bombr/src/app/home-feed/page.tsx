@@ -14,9 +14,19 @@ function Home() {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push('/login');
+      console.log("User is Unauthenticated")
+      console.log("Status is:", status);
+    }
+    if (status === "authenticated") {
+      console.log("User is Authenticated")
+      console.log("Session data:", session);
+      // router.push('/login');
     }
   }, [status, router]);
+
+  useEffect(() => {
+    // update(); // Force session refresh
+  }, []);
 
   if (status === "loading") {
     return <p>Loading...</p>; // Show loading state while session is being checked

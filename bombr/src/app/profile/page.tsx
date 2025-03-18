@@ -4,13 +4,26 @@ import Navbar from "@/components/Navbar/navbar"
 import MainSection from "@/components/Main/main"
 import Aside from "@/components/Aside/Aside"
 import styles from './profile.module.css'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ScrollRegion from "@/components/scrollRegion/scrollRegion"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { s } from "framer-motion/client"
 
 function Profile() {
 
     const [postListType, setPostListType] = useState("received")
     const [barPosition, setBarPosition] = useState("0")
+    const { data: session, status } = useSession();
+    const router = useRouter();
+    
+    // Redirect user to /home-feed if they are authenticated
+    useEffect(() => {
+    if (status === "unauthenticated") {
+        router.push('/login');
+    }
+    }, [status, router]);
+
 
     const ListSentPosts = () => {
         setPostListType("sent")
@@ -29,11 +42,12 @@ function Profile() {
                 
                 <div className={styles.profileWrapper}>
                     <header className={styles.profileHeader}>
-                        <div className={styles.profilePic}></div>
+                        <div className={styles.profilePic} style={{backgroundImage: `url(${session?.user?.image})`}}></div>
                         <div className={styles.profileInfo}>
                             <div className={styles.nameInfoWrapper}>
-                                <h1 className={styles.userNickname}>Profile_Username</h1>
-                                <h2 className={styles.userFullName}>Full Name</h2>
+
+                                <h1 className={styles.userNickname}>{session?.user?.username || session?.user?.name}</h1>
+                                <h2 className={styles.userFullName}>{session?.user?.fullname || session?.user?.name}</h2>
                             </div>
                             <div className={styles.globalStatsWrapper}>
                                 <div className={styles.userProfileStatWrapper}>

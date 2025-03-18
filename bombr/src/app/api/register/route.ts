@@ -18,6 +18,7 @@ export async function POST(req: Request) {
     // Verificar se o utilizador já existe
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
+      console.log(`⚠️ Uma conta com o email ${email} ja existe`)
       return NextResponse.json(
         { error: "Utilizador já existe" },
         { status: 400 }
