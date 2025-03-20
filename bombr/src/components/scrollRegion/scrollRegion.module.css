@@ -1,6 +1,6 @@
 .scrollRegion {
     width: 500px;
-    height: fit-content;
+    min-height: fit-content;
     /* margin-left: 10%; */
 }
 

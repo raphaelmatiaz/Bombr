@@ -5,10 +5,12 @@ import MainSection from "@/components/Main/main"
 import Aside from "@/components/Aside/Aside"
 import styles from './profile.module.css'
 import React, { useEffect, useState } from "react";
+// import { div } from "react";
 import ScrollRegion from "@/components/scrollRegion/scrollRegion"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { s } from "framer-motion/client"
+import { url } from "inspector"
 
 function Profile() {
 
@@ -42,7 +44,11 @@ function Profile() {
                 
                 <div className={styles.profileWrapper}>
                     <header className={styles.profileHeader}>
-                        <div className={styles.profilePic} style={{backgroundImage: `url(${session?.user?.image})`}}></div>
+                        {session?.user?.image === null ? (
+                            <div className={styles.profilePic} style={{backgroundImage: `url(/default-profile.png)`}}></div>
+                        ) : (
+                            <div className={styles.profilePic} style={{backgroundImage: `url(${session?.user?.image})`}}></div>
+                        )}
                         <div className={styles.profileInfo}>
                             <div className={styles.nameInfoWrapper}>
 

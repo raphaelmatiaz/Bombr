@@ -93,7 +93,7 @@ export default function Stepper({
     <div className="outer-container" {...rest}>
       <div
         className={`step-circle-container ${stepCircleContainerClassName}`}
-        style={{ border: "1px solid #222" }}
+        // style={{ border: "1px solid #222" }}
       >
         <div className={`step-indicator-row ${stepContainerClassName}`}>
           {stepsArray.map((_, index) => {
@@ -189,6 +189,7 @@ function StepContentWrapper({
       animate={{ height: isCompleted ? 0 : parentHeight }}
       transition={{ type: "spring", duration: 0.4 }}
     >
+      
       <AnimatePresence initial={false} mode="sync" custom={direction}>
         {!isCompleted && (
           <SlideTransition key={currentStep} direction={direction} onHeightReady={(h) => setParentHeight(h)}>
@@ -286,16 +287,16 @@ function StepIndicator({
       <motion.div
         variants={{
           inactive: { scale: 1, backgroundColor: "#222", color: "#a3a3a3" },
-          active: { scale: 1, backgroundColor: "#00d8ff", color: "#00d8ff" },
-          complete: { scale: 1, backgroundColor: "#00d8ff", color: "#3b82f6" },
+          active: { scale: 1, backgroundColor: "#7A00F4", color: "#00d8ff" },
+          complete: { scale: 1, backgroundColor: "#7A00F4", color: "#3b82f6" },
         }}
         transition={{ duration: 0.3 }}
         className="step-indicator-inner"
       >
         {status === "complete" ? (
-          <CheckIcon className="check-icon" />
+          <CheckIcon className="check-icon" fill="#FFFFFF" />
         ) : status === "active" ? (
-          <div className="active-dot" />
+          <div className="active-dot" style={{ backgroundColor: "#FFFFFF" }} />
         ) : (
           <span className="step-number">{step}</span>
         )}
@@ -311,7 +312,7 @@ interface StepConnectorProps {
 function StepConnector({ isComplete }: StepConnectorProps) {
   const lineVariants: Variants = {
     incomplete: { width: 0, backgroundColor: "transparent" },
-    complete: { width: "100%", backgroundColor: "#00d8ff" },
+    complete: { width: "100%", backgroundColor: "#7A00F4", color: "#000" },
   };
 
   return (

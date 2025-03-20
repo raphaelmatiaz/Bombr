@@ -1,0 +1,53 @@
+
+.suggestedProfile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.link {
+    color:  black;
+    text-decoration: none;
+}
+
+.profileImage {
+    width: 5.6rem;
+    height: 5.6rem;
+    border-radius: 100%;
+    margin-bottom: 16px;
+    border: 1px solid var(--color-greyB);
+    background: var(--gradient-placeholder);
+    box-shadow: var(--box-shadowD);
+    margin-right: 16px;
+    background-image: url("/default-profile.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.profileUsername {
+    font-size: 1.2rem;
+    font-weight: 600;
+    position: relative;
+    bottom: 8px;
+}
+
+.targetIcon {
+    height: 24px;
+    width: 24px;
+    background-image: url('/target.svg');
+    background-position: center;
+    /* background-color: black; */
+    background-repeat: no-repeat;
+    background-size: contain;
+    align-self: flex-start;
+}
+
+.targetProfileImageNameWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
