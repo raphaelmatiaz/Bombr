@@ -9,10 +9,17 @@ import React, { useEffect, useState } from "react";
 import ScrollRegion from "@/components/scrollRegion/scrollRegion"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
-// import { s } from "framer-motion/client"
-// import { url } from "inspector"
+import { s } from "framer-motion/client"
+import { url } from "inspector"
+import { use } from "react";
 
-function Profile() {
+// Aqui vais ter de passar a instancia de user inteira, 
+// em vez de apenas 'username', para poder dizer: 
+// 'user.username'. 'user.fullname', 'user.postsSent', 
+// 'user.postsReceived', 'user.bio', 'user.image', etc
+function Profile({ params }: { params: Promise<{ username: string; fullname: string }> }) {
+
+    const resolvedParams = use(params); // Unwrapping the promise
 
     const [postListType, setPostListType] = useState("received")
     const [barPosition, setBarPosition] = useState("0")
@@ -44,16 +51,14 @@ function Profile() {
                 
                 <div className={styles.profileWrapper}>
                     <header className={styles.profileHeader}>
-                        {session?.user?.image === null ? (
-                            <div className={styles.profilePic} style={{backgroundImage: `url(/default-profile.png)`}}></div>
-                        ) : (
-                            <div className={styles.profilePic} style={{backgroundImage: `url(${session?.user?.image})`}}></div>
-                        )}
+                        
+                        <div className={styles.profilePic} style={{backgroundImage: `url(/default-profile.png)`}}></div>
+                        
                         <div className={styles.profileInfo}>
                             <div className={styles.nameInfoWrapper}>
 
-                                <h1 className={styles.userNickname}>{session?.user?.username || session?.user?.name}</h1>
-                                <h2 className={styles.userFullName}>{session?.user?.fullname || session?.user?.name}</h2>
+                                <h1 className={styles.userNickname}>{resolvedParams.username}</h1>
+                                <h2 className={styles.userFullName}>{resolvedParams.username}</h2>
                             </div>
                             <div className={styles.globalStatsWrapper}>
                                 <span className={styles.statRow}>

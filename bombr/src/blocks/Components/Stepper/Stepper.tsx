@@ -13,6 +13,9 @@ import React, {
 import { motion, AnimatePresence, Variants } from "framer-motion";
 
 import "./Stepper.css";
+import { useRouter } from "next/navigation";
+import { redirect } from "next/dist/server/api-utils";
+
 
 interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -60,6 +63,7 @@ export default function Stepper({
   const totalSteps = stepsArray.length;
   const isCompleted = currentStep > totalSteps;
   const isLastStep = currentStep === totalSteps;
+  const router = useRouter()
 
   const updateStep = (newStep: number) => {
     setCurrentStep(newStep);
@@ -86,6 +90,8 @@ export default function Stepper({
 
   const handleComplete = () => {
     setDirection(1);
+    // redirect('/profile')
+    router.push('/profile')
     updateStep(totalSteps + 1);
   };
 
@@ -141,7 +147,7 @@ export default function Stepper({
         {!isCompleted && (
           <div className={`footer-container ${footerClassName}`}>
             <div className={`footer-nav ${currentStep !== 1 ? "spread" : "end"}`}>
-              {currentStep !== 1 && (
+              {currentStep !== 1 && currentStep !== 4 && (
                 <button
                   onClick={handleBack}
                   className={`back-button ${currentStep === 1 ? "inactive" : ""}`}
@@ -155,7 +161,7 @@ export default function Stepper({
                 className="next-button"
                 {...nextButtonProps}
               >
-                {isLastStep ? "Complete" : nextButtonText}
+                {isLastStep ? "View Damage" : nextButtonText}
               </button>
             </div>
           </div>

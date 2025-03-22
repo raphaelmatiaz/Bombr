@@ -209,7 +209,7 @@ const NewBomb = () => {
                         </Step>
                         {/*======= STEP 4 =======*/}
                         <Step>
-                            <div className={styles.stepWrapper}>
+                            <div className={styles.stepWrapper} id={styles.step4wrapper}>
                                 <div className={styles.postImageWrapper}>
                                     <div className={styles.munitionAndTargetWrapper}>
                                         <div className={styles.postImageStep3} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
@@ -217,15 +217,8 @@ const NewBomb = () => {
                                         <div className={styles.profilePic} style={{backgroundImage: `url(/default-profile.png)`}}></div>
                                     </div>
                                 </div>
-                                {/* <div className={styles.postImageWrapper}>
-                                    <div className={styles.munitionAndTargetWrapper}>
-                                        <div className={styles.postImage} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
-                                        <div className={styles.arrow}></div>
-                                        <div className={styles.profilePic} style={{backgroundImage: `url(/default-profile.png)`}}></div>
-                                    </div>
-                                </div> */}
                                 <h2>'Target.username' was struck by your bomb! </h2>
-                                <Link href={"/profile/suggestedUser"}>View Damage</Link>
+                                {/* <Link className={styles.viewDamageBtn} href={"/profile"}>View Damage</Link> */}
                             </div>
                         </Step>
                     </Stepper>

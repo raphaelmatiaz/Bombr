@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 
-export const prismaCrudOperations = {
+const prismaCrudOperations = {
     user: {
         // Update User
         updateUser: await prisma.user.update({
@@ -18,6 +18,8 @@ export const prismaCrudOperations = {
             },
           })
           },
+          // Get All Users
+          getAllUsers: await prisma.user.findMany(),
     post:{
         // Create Post
         createPost: await prisma.post.create({
@@ -45,4 +47,6 @@ export const prismaCrudOperations = {
             },
           }),
     },
-}
+};
+
+export default prismaCrudOperations;
