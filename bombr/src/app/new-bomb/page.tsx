@@ -10,13 +10,16 @@ import TargetProfile from '@/components/targetProfile/targetProfile';
 import Link from 'next/link'
 import { useRef } from 'react';
 import Crosshair from '../../blocks/Animations/Crosshair/Crosshair';
+import axios from 'axios';
+import Image from 'next/image'
+import { div } from 'framer-motion/client';
 
 // Giphy API Settings
 
     // Playground: https://codesandbox.io/p/sandbox/20kmp3zp9r?file=%2Fsrc%2Findex.ts
     // API Docs: https://developers.giphy.com/docs/#implementation-options
 
-const gf = new GiphyFetch('your api key')
+// const gf = new GiphyFetch('your api key')
 
 // fetch 10 gifs
 // const { data: gifs } = await gf.trending({ limit: 10 })
@@ -32,14 +35,80 @@ const NewBomb = () => {
     const [preview, setPreview] = useState<string | null>('/post-preview-default.svg');
     const [apiType, setApiType] = useState("gifs")
     const [barPosition, setBarPosition] = useState("0")
+
+    // State of Gifs and Memes from APIs
+    const [gifs, setGifs] = useState<any[]>([]);
+    const [memes, setMemes] = useState<any[]>([]);
+
+    const [search, setSearch] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
+    const [gifTitle, setGifTitle] = useState<string>('');
     const containerRef = useRef(null);
+
+    // Fetching GIFs from Giphy
+    const fetchGifs = async (query: string) => {
+        setLoading(true);
+        try {
+          const response = await axios.get(
+            `https://api.giphy.com/v1/gifs/search?api_key=${process.env.NEXT_PUBLIC_GIPHY_API_KEY}&q=${query}&limit=50`
+          );
+          setGifs(response.data.data); // Set GIFs from the response
+        } catch (error) {
+          console.error('Error fetching GIFs:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+    // Fetching memes from Imgflip
+    const fetchMemes = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get('https://api.imgflip.com/get_memes');
+          console.log("Raw API response:", response.data); // Check what the API returns
+          setMemes(response.data.data.memes);
+        } catch (error) {
+          console.error('Error fetching memes:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      
+      // Log `memes` after state updates
+      useEffect(() => {
+        console.log("Updated memes state:", memes);
+      }, [memes]);
+
+      useEffect(() => {
+        // 🔍 Filter Memes Based on Search Query
+        if (search === '') {
+            fetchMemes();
+        }
+        
+        const filteredMemes = memes.filter((meme) =>
+            meme.name.toLowerCase().includes(search.toLowerCase())
+        );
+        setMemes(filteredMemes);
+      }, [search]);
+      
+
+    useEffect(() => {
+        if (search.trim() === '') {
+        fetchGifs('funny'); // Default search term
+        } else {
+        fetchGifs(search); // Fetch GIFs based on search term
+        }
+    }, [search]); // Trigger the API call when search term changes
     
     useEffect(() => {
         if (apiType === "gifs") {
            console.log("gifs")
+           fetchGifs("funny")
         }
         else if (apiType === "memes") {
             console.log("memes")
+            fetchMemes()
+            
         }
            
     }, [apiType]);
@@ -55,6 +124,19 @@ const NewBomb = () => {
         setPreview(previewURL);
         }
     };
+
+    const handleGifClick = (gif: any) => {
+        // setSelectedFile(gif.images.original.url);
+        setSelectedFile(gif.images.fixed_height.webp);
+        setPreview(gif.images.fixed_height.webp);
+        setGifTitle(gif.title)
+    }
+
+    const handleMemeClick = (meme: any) => {
+        setSelectedFile(meme.url);
+        setPreview(meme.url);
+        setGifTitle(meme.name)
+    }
 
     interface SubmitEvent extends React.FormEvent<HTMLFormElement> {}
 
@@ -93,8 +175,9 @@ const NewBomb = () => {
                         onFinalStepCompleted={() => console.log("All steps completed!")}
                         backButtonText="Previous"
                         nextButtonText="Next"
+                        disableStepIndicators
                         >
-                        {/*======= STEP 1 =======*/}
+                        {/*===================== STEP 1 =====================*/}
                         <Step>
                             <div className={styles.stepWrapper}>
 
@@ -102,8 +185,8 @@ const NewBomb = () => {
                                     <div className={styles.postImage} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
                                 </div>
 
-                                <h2>Arm Your Arsenal 💣</h2>
-                                {selectedFile && <p className={styles.selectedFile}><em className={styles.em}> 💥 Selected Munition :</em> {selectedFile.name} 💥</p>}
+                                <h2>Load Your Arsenal</h2>
+                                {selectedFile && <p className={styles.selectedFile}><em className={styles.em}>💣 Selected Munition :</em> {selectedFile.name || gifTitle} 💣</p>}
                                 <form onSubmit={handleSubmit} className={styles.form}>
                                     <input
                                         type="file"
@@ -114,56 +197,52 @@ const NewBomb = () => {
                                         
                                     />
                                     <label htmlFor="fileInput"className={styles.fileInputLabel}>Browse File </label>
-                                    </form>
-                                    <hr />
-                                    <nav className={styles.profileNavbar}>
-                                        <div className={styles.navBarButtonsWrapper}>
-                                            <button className={styles.postListButton} onClick={() => ListGifs()}>Gifs</button>
-                                            <button className={styles.postListButton} onClick={() => ListMemes()}>Memes</button>
-                                        </div>
-                                        <div className={styles.movingBarWrapper} style={{ marginLeft: barPosition }}>
-                                            <div id="movingBar" className={styles.movingBar}></div>
-                                        </div>
-                                        <input className={styles.searchBar} type="text" placeholder='Search' />
-                                    </nav>
-                                    <ul className={styles.contentList}>
-                        {apiType === "gifs" && (
-                            <>
-                            <img src="/monkey-pc.gif" alt="Description" />
-                            <img src="/image.png" alt="Description" />
-                            <img src="/image2.jpg" alt="Description" />
-                            <img src="/image3.jpg" alt="Description" />
-                            <img src="/image4.jpg" alt="Description" />
-                            <img src="/image5.jpg" alt="Description" />
-                            <img src="/image6.jpg" alt="Description" />
-                            <img src="/image7.jpg" alt="Description" />
-                            <img src="/image8.jpg" alt="Description" />
-                            <img src="/image9.jpg" alt="Description" />
-                            <img src="/image10.jpg" alt="Description" />
-                            <img src="/image11.jpg" alt="Description" />
-                            </>
-                        )}
+                                </form>
+                                <hr />
+                                <nav className={styles.profileNavbar}>
+                                <div className={styles.navBarButtonsWrapper}>
+                                    <button className={styles.postListButton} onClick={() => ListGifs()}>Gifs</button>
+                                    <button className={styles.postListButton} onClick={() => ListMemes()}>Memes</button>
+                                </div>
+                                <div className={styles.movingBarWrapper} style={{ marginLeft: barPosition }}>
+                                    <div id="movingBar" className={styles.movingBar}></div>
+                                </div>
+                                <input className={styles.searchBar} 
+                                    type="text"
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    placeholder={`Search for ${apiType}...`}/>
+                                </nav>
+                                <ul className={styles.contentList}>
+                                    {apiType === "gifs" && (
+                                        <>
+                                            {/* Loading Spinner */}
+                                            {loading && <p>Loading...</p>}
 
-                        {apiType === "memes" && (
-                            <>
-                            <img src="/chillguy.jpg" alt="Description" />
-                            <img src="/chillguy.jpg" alt="Description" />
-                            <img src="/chillguy.jpg" alt="Description" />
-                            <img src="/chillguy.jpg" alt="Description" />
-                            <img src="/chillguy.jpg" alt="Description" />
-                            <img src="/chillguy.jpg" alt="Description" />
-                            <img src="/chillguy.jpg" alt="Description" />
-                            <img src="/chillguy.jpg" alt="Description" />
-                            <img src="/chillguy.jpg" alt="Description" />
-                            </>
-                        )}
-                        </ul>
+                                            {/* Display GIFs */}
+                                            {gifs.map((gif, index) => (
+                                                <img key={index} style={{width: "100%"}} className={styles.gif} src={gif.images.fixed_height.webp} alt={gif.title} onClick={() => handleGifClick(gif)} />
+                                            ))}
+                                        </>
+                                    )}
+
+                                    {apiType === "memes" && (
+                                        <>
+                                            {/* Loading Spinner */}
+                                            {loading && <p>Loading...</p>}
+
+                                            {/* Display GIFs */}
+                                            {memes.length === 0 && <p>API Quota Exceeded. No Memes Available</p>}
+                                            {memes.map((meme, index) => (
+                                                <img key={index} style={{width: "100%"}} className={styles.gif} src={meme.url} alt={meme.name} onClick={() => handleMemeClick(meme)} />
+                                            ))}
+                                        </>
+                                    )}
+                                </ul>
                             </div>
                         </Step>
-                        {/*======= STEP 2 =======*/}
+                        {/*===================== STEP 2 =====================*/}
                         <Step>
-                        
-
                             <div className={styles.postImageWrapper}>
                                 {!preview ? <button className={styles.removeImageButton}>✖️</button> : null}
                                 <div className={styles.postImage} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
@@ -183,19 +262,13 @@ const NewBomb = () => {
                                         <TargetProfile></TargetProfile>
                                         <TargetProfile></TargetProfile>
                                         <TargetProfile></TargetProfile>
-                                        {/* <div ref={containerRef} style={{ overflow: 'hidden' }}>
-                                            <Crosshair  color='#000'/></div> */}
                                     </ul>
                                 <div className={styles.stepWrapper}>
                             </div>
                         </Step>
-                        {/*======= STEP 3 =======*/}
+                        {/*===================== STEP 3 =====================*/}
                         <Step>
                             <div className={styles.stepWrapper}>
-                            {/* <div className={styles.postImageWrapper}>
-                                <div className={styles.postImageStep3} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
-                                <div className={styles.profilePic} style={{backgroundImage: `url(/default-profile.png)`}}></div>
-                            </div> */}
                             <div className={styles.postImageWrapper}>
                                 <div className={styles.munitionAndTargetWrapper}>
                                     <div className={styles.postImageStep3} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
@@ -207,7 +280,7 @@ const NewBomb = () => {
                             <input className={styles.input} type='text' placeholder='Write a message'/>
                             </div>
                         </Step>
-                        {/*======= STEP 4 =======*/}
+                        {/*===================== STEP 4 =====================*/}
                         <Step>
                             <div className={styles.stepWrapper} id={styles.step4wrapper}>
                                 <div className={styles.postImageWrapper}>
@@ -218,14 +291,12 @@ const NewBomb = () => {
                                     </div>
                                 </div>
                                 <h2>'Target.username' was struck by your bomb! </h2>
-                                {/* <Link className={styles.viewDamageBtn} href={"/profile"}>View Damage</Link> */}
                             </div>
                         </Step>
                     </Stepper>
                 </div>
-                {/* </ScrollRegion> */}
             </MainSection>
-    </div>
+        </div>
     )
 }
 
