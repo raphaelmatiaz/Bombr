@@ -71,6 +71,18 @@
     background-repeat: no-repeat;
 }
 
+.postImageStep4 {
+    min-width: 120px;
+    min-height: 120px;
+    /* width: 120px;
+    height: 120px; */
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 100%;
+    margin: 12px;
+}
+
 .fileInput {
     width: 100%;
     /* background-color: black; */
@@ -262,3 +274,57 @@
     left: 0;
     top: 0;
 }
+
+.bombShapedBorderWrapper {
+    position: relative;
+    animation: bombStrike 3s cubic-bezier(0,1.31,.83,.67) infinite ;
+}
+
+
+.bombShapedBorder {
+    background-image: url('/bombShapedBorder.svg');
+    background-position: center;
+    background-size: contain;
+    z-index: 11111110;
+    position: relative;
+    width: 165px;
+    height: 165px;
+    background-repeat: no-repeat;
+    position: fixed;
+    transform: translate(-11px, -18px);
+}
+
+.spinningAnimation {
+    animation: spinningInfinite 1s linear infinite;
+}
+
+@keyframes spinningInfinite {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes bombStrike {
+    0% {
+        transform: translate(-120px, 320px) scale(0.7) rotate(0deg);
+    }
+
+    55% {
+        transform: translate(0, -100px) scale(1.02) rotate(198deg);
+    }
+
+    100% {
+        transform: translate(130px, 100px) scale(1.2) rotate(360deg);
+    }
+}
+
+
+
+
+
+
+
+

@@ -207,7 +207,7 @@ const NewBomb = () => {
                         onFinalStepCompleted={() => console.log("All steps completed!")}
                         backButtonText="Previous"
                         nextButtonText="Next"
-                        disableStepIndicators
+                        // disableStepIndicators
                         >
                         {/*===================== STEP 1 =====================*/}
                         <Step>
@@ -335,8 +335,13 @@ const NewBomb = () => {
                             <div className={styles.stepWrapper} id={styles.step4wrapper}>
                                 <div className={styles.postImageWrapper}>
                                     <div className={styles.munitionAndTargetWrapper}>
-                                        <div className={styles.postImageStep3} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
-                                        <div className={styles.arrow}></div>
+                                            <span className={styles.bombShapedBorderWrapper}>
+                                                
+                                                <div className={styles.bombShapedBorder}></div>
+                                                <div className={styles.postImageStep4} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
+                                            </span>
+                                        
+                                        
                                         <div className={styles.profilePic} style={{backgroundImage: `url(/default-profile.png)`}}></div>
                                     </div>
                                 </div>
