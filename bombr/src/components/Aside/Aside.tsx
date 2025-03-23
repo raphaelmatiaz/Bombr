@@ -1,4 +1,4 @@
-
+"use client"
 import LinkToProfile from "../LinkToProfile/LinkToProfile"
 import FriendSuggestions from "../FriendSuggestions/friendSuggestions"
 import SuggestedProfile from "../suggestedProfile/suggestedProfile"

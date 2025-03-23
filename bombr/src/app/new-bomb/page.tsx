@@ -12,7 +12,10 @@ import { useRef } from 'react';
 import Crosshair from '../../blocks/Animations/Crosshair/Crosshair';
 import axios from 'axios';
 import Image from 'next/image'
-import { div } from 'framer-motion/client';
+import  prisma  from '@/lib/prisma'
+import { div, span } from 'framer-motion/client';
+import { User } from "../../types/user";
+import SuggestedProfile from '@/components/suggestedProfile/suggestedProfile';
 
 // Giphy API Settings
 
@@ -32,7 +35,7 @@ const NewBomb = () => {
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectedTarget, setSelectedTarget] = useState("asd")
-    const [preview, setPreview] = useState<string | null>('/post-preview-default.svg');
+    const [preview, setPreview] = useState<string | null>('/default-preview-placeholder.png');
     const [apiType, setApiType] = useState("gifs")
     const [barPosition, setBarPosition] = useState("0")
 
@@ -40,10 +43,23 @@ const NewBomb = () => {
     const [gifs, setGifs] = useState<any[]>([]);
     const [memes, setMemes] = useState<any[]>([]);
 
+    // State of User Fetching from DB Xata
+    const [users, setUsers] = useState<User[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    // State of Search Target User
+    const [searchedUser, setSearchedUser] = useState<User | null>(null);
+    const [foundUsers, setFoundUsers] = useState<User[] | null>(null);
+
     const [search, setSearch] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [gifTitle, setGifTitle] = useState<string>('');
     const containerRef = useRef(null);
+
+    useEffect(() => {
+        const foundUsers = users.filter(user => user.username && user.username.includes(search));
+        setFoundUsers(foundUsers);
+    }, [searchedUser]);
 
     // Fetching GIFs from Giphy
     const fetchGifs = async (query: string) => {
@@ -81,7 +97,7 @@ const NewBomb = () => {
 
       useEffect(() => {
         // 🔍 Filter Memes Based on Search Query
-        if (search === '') {
+        if (search.trim() === '') {
             fetchMemes();
         }
         
@@ -112,6 +128,22 @@ const NewBomb = () => {
         }
            
     }, [apiType]);
+
+    useEffect(() => {
+        async function fetchUsers() {
+          try {
+            const response = await fetch("/api/users");
+            if (!response.ok) throw new Error("Failed to fetch users");
+
+            const data: User[] = await response.json();
+            setUsers(data);
+          } catch (err) {
+            setError((err as Error).message);
+          }
+        }
+
+        fetchUsers();
+      }, []);
     
     // Handle file selection
     const handleFileChange = (event: FileChangeEvent): void => {
@@ -182,7 +214,10 @@ const NewBomb = () => {
                             <div className={styles.stepWrapper}>
 
                                 <div className={styles.postImageWrapper}>
-                                    <div className={styles.postImage} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
+                                    
+                                    <div className={styles.postImage} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}>
+                                        {preview !== '/default-preview-placeholder.png' ? <button className={styles.removeImageButton} onClick={() => {setPreview('/default-preview-placeholder.png'); setSelectedFile(null)}}>✖️</button> : <></>}
+                                    </div>
                                 </div>
 
                                 <h2>Load Your Arsenal</h2>
@@ -244,13 +279,14 @@ const NewBomb = () => {
                         {/*===================== STEP 2 =====================*/}
                         <Step>
                             <div className={styles.postImageWrapper}>
-                                {!preview ? <button className={styles.removeImageButton}>✖️</button> : null}
+                                
                                 <div className={styles.postImage} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
                             </div>
                                 <h2>Chosose your Target  </h2>
                                 <input className={styles.searchBar} style={{marginBottom: "32px"}} type="text" placeholder='Search' />
                                     <ul className={styles.targetProfilesList}>
                                         <span onClick={() => setSelectedTarget("asd")}></span>
+                                        {/* <TargetProfile></TargetProfile>
                                         <TargetProfile></TargetProfile>
                                         <TargetProfile></TargetProfile>
                                         <TargetProfile></TargetProfile>
@@ -260,8 +296,22 @@ const NewBomb = () => {
                                         <TargetProfile></TargetProfile>
                                         <TargetProfile></TargetProfile>
                                         <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile>
+                                        <TargetProfile></TargetProfile> */}
+                                        {foundUsers && foundUsers.length > 0 ? (
+                                            foundUsers.map((user) => (
+                                                <span key={user.id}>
+                                                    <TargetProfile name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></TargetProfile>
+                                                </span>
+                                            ))
+                                        ) : (
+                                            users.map((user) => (
+                                                <span key={user.id}>
+                                                    <TargetProfile name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></TargetProfile>
+                                                </span>
+                                            ))
+                                        )}
+                                            
+                                        
                                     </ul>
                                 <div className={styles.stepWrapper}>
                             </div>

@@ -1,18 +1,27 @@
 import styles from './targetProfile.module.css'
 import Link from 'next/link'
 
-const targetProfile = () => {
+interface TargetProfileProps {
+    name: string;
+    username: string;
+    fullName: string;
+}
+
+const targetProfile: React.FC<TargetProfileProps> = ({ name, username, fullName }) => {
     return(
         <div className={styles.componentWrapper}>
-            <Link className={styles.link} href="/user/suggestedUser">
-                <div className={styles.suggestedProfile}>
-                    <div className={styles.targetProfileImageNameWrapper}>
-                        <div className={styles.profileImage}></div>
-                        <p className={styles.profileUsername}>Suggested_User</p>
-                    </div>
-                    <div className={styles.targetIcon}></div>
+           <div className={styles.suggestedProfile}>
+               <div className={styles.targetProfileImageNameWrapper}>
+                   <div className={styles.profileImage}></div>
+
+                    {username ? (
+                        <p className={styles.profileUsername}>{username}</p>
+                    ) : (
+                        <p className={styles.profileUsername}>{name}</p>
+                    )}
                 </div>
-            </Link>
+                <div className={styles.targetIcon}></div>
+            </div>
         </div>
     )
 }
