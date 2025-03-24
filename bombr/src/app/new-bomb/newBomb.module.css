@@ -298,6 +298,38 @@
     animation: spinningInfinite 1s linear infinite;
 }
 
+.targetProfileWrapaper {
+    cursor: pointer;
+}
+
+@media (max-width: 968px) {
+.stepperWrapper {
+    width: 100%;
+    border: 4px dotted red;
+}
+
+.newBombview {
+    width: 100%;
+}
+    
+  }
+
+  @media only screen and (max-width: 630px) { /*517*/
+
+    .outer-container {
+    width: 100vw;
+    min-width: 100%;
+    display: flex;
+  
+    /* background-color: white; */
+  }
+  
+  .step-circle-container {
+    width: 100vw; 
+  }
+  
+  }
+
 @keyframes spinningInfinite {
     0% {
         transform: rotate(0deg);

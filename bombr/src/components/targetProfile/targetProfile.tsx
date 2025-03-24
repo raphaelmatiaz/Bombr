@@ -5,6 +5,7 @@ interface TargetProfileProps {
     name: string;
     username: string;
     fullName: string;
+    onClickEvent?: () => void
 }
 
 const targetProfile: React.FC<TargetProfileProps> = ({ name, username, fullName }) => {

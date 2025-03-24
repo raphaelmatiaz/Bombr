@@ -3,11 +3,13 @@
     position: fixed;
     /* right: 32px;
     top: 0; */
+
+    width: 22%;
     min-height: 100%;
     max-height: 100vh;
     padding-top: 64px;
     /* background-color: red; */
-    max-width: 256px;
+    /* max-width: 256px; */
     /* position: fixed; */
 }
 

@@ -13,9 +13,14 @@ import Crosshair from '../../blocks/Animations/Crosshair/Crosshair';
 import axios from 'axios';
 import Image from 'next/image'
 import  prisma  from '@/lib/prisma'
-import { div, span } from 'framer-motion/client';
-import { User } from "../../types/user";
+import fs from "fs";
+import { div, object, span } from 'framer-motion/client';
+import User from "@/types/user.ts";
 import SuggestedProfile from '@/components/suggestedProfile/suggestedProfile';
+import targetProfile from '@/components/targetProfile/targetProfile';
+import { useSession } from 'next-auth/react';
+
+
 
 // Giphy API Settings
 
@@ -33,8 +38,12 @@ interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 
 const NewBomb = () => {
 
+    // Form Data
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [selectedTarget, setSelectedTarget] = useState("asd")
+    const [selectedTarget, setSelectedTarget] = useState("")
+    const [targetUser, setTargetUser] = useState<User | null>(null)
+    const [bombMessage, setBombMessage] = useState("")
+
     const [preview, setPreview] = useState<string | null>('/default-preview-placeholder.png');
     const [apiType, setApiType] = useState("gifs")
     const [barPosition, setBarPosition] = useState("0")
@@ -55,6 +64,9 @@ const NewBomb = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [gifTitle, setGifTitle] = useState<string>('');
     const containerRef = useRef(null);
+
+    // Session
+    const { data: session, status } = useSession();
 
     useEffect(() => {
         const foundUsers = users.filter(user => user.username && user.username.includes(search));
@@ -157,6 +169,115 @@ const NewBomb = () => {
         }
     };
 
+    // handleSelectTargetUser
+    const handleSelectTargetUser = (user: User) => {
+        if (user.username) {
+            setSelectedTarget(user.username)
+            return}
+        if (user.name) {
+            setSelectedTarget(user.name)
+        }
+        if (user.fullName) {
+            setSelectedTarget(user.fullName)
+        }}
+        // else {
+        //     setSelectedTarget(user.id)
+        // }}
+    
+    // Handle New Post
+    // const handleNewPost = async () => {
+    //     if (!session || !selectedFile) return;
+
+    //     // se a file for um upload, e não um conteude de API (gif ou meme):
+    //         // guardar a file no 'UploadThing'
+
+    //     // se a file for um conteudo de API (gif ou meme):
+    //         // guardar o url diretamente na db 'Xata'
+
+    //     console.log("Selected File:", selectedFile, typeof selectedFile);
+    
+    //     const fileToBase64 = async (file: File) => {
+    //         return new Promise<string>((resolve, reject) => {
+    //             const reader = new FileReader();
+    //             reader.readAsDataURL(file);
+    //             reader.onload = () => resolve(reader.result as string);
+    //             reader.onerror = (error) => reject(error);
+    //         });
+    //     };
+    
+    //     try {
+    //         const base64String = await fileToBase64(selectedFile);
+    
+    //         // aqui antes tava 'const user'
+    //         const post = await prisma.post.create({
+    //             data: {
+    //                 content: base64String, // Store as a Base64 string
+    //                 senderId: Number(session.user.id),
+    //                 receiverId: Number(selectedTarget),
+    //                 message: bombMessage,
+    //             },
+    //         });
+    //     } catch (error) {
+    //         console.error("Error encoding file:", error);
+    //     }
+    // };
+
+    //selectedFile: File | null, session: any, selectedTarget: number, bombMessage: string
+    const handleNewPost = async () => {
+        if (!session || !selectedFile) return;
+    
+        try {
+            // 🔹 Step 1: Upload File to UploadThing
+            const formData = new FormData();
+            formData.append("file", selectedFile);
+    
+            const response = await fetch("/api/uploadthing", {
+                method: "POST",
+                body: formData,
+            });
+    
+            if (!response.ok) throw new Error("File upload failed");
+    
+            const { fileUrl } = await response.json(); // 🔹 Get the file URL
+    
+            console.log("Uploaded file URL:", fileUrl);
+    
+            // 🔹 Step 2: Store the File URL in XataDB
+            await prisma.post.create({
+                data: {
+                    content: fileUrl, // Store URL in XataDB
+                    senderId: Number(session.user.id),
+                    receiverId: Number(selectedTarget),
+                    message: bombMessage,
+                },
+            });
+    
+            console.log("Post successfully saved!");
+        } catch (error) {
+            console.error("Error uploading file or saving post:", error);
+        }
+    };
+
+    // // Handle target user selection
+    // useEffect(() => {
+    //     const fetchUser = async () => {
+    //         const user = await prisma.user.findUnique({
+    //             where: {
+    //                 id: `${selectedTarget}`,
+    //             },
+    //         });
+    //         setTargetUser(user);
+    //     };
+    //     fetchUser();
+    // }, [selectedTarget])
+
+    // Handle Set Message
+    // const handleSetMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setBombMessage(event.target.value);
+    //     setTimeout(() => {}, 100)
+    //     console.log("Message:", bombMessage)
+    // };
+
     const handleGifClick = (gif: any) => {
         // setSelectedFile(gif.images.original.url);
         setSelectedFile(gif.images.fixed_height.webp);
@@ -173,13 +294,13 @@ const NewBomb = () => {
     interface SubmitEvent extends React.FormEvent<HTMLFormElement> {}
 
     // Handle form submission
-    const handleSubmit = (event: SubmitEvent): void => {
-        event.preventDefault();
-        if (selectedFile) {
-            console.log("Submitting file:", selectedFile);
-            // Here, you'd send the file to your backend or API
-        }
-    };
+    // const handleSubmit = (event: SubmitEvent): void => {
+    //     event.preventDefault();
+    //     if (selectedFile) {
+    //         console.log("Submitting file:", selectedFile);
+    //         // Here, you'd send the file to your backend or API
+    //     }
+    // };
 
     // API Nav UI (Memes vs Gifs)
     const ListMemes = async () => {
@@ -194,6 +315,7 @@ const NewBomb = () => {
     }
 
 
+   
     return (
         <div className={styles.newBombview}>
             <MainSection>
@@ -202,6 +324,12 @@ const NewBomb = () => {
                     <Stepper
                         initialStep={1}
                         onStepChange={(step) => {
+                            if (step === 2) {
+                                if (selectedFile === null) {
+                                    // window.alert("⚠️ Please select a munition")
+                                    console.log("⚠️ No munition selected")
+                                
+                            }}
                             console.log(step);
                         }}
                         onFinalStepCompleted={() => console.log("All steps completed!")}
@@ -222,7 +350,7 @@ const NewBomb = () => {
 
                                 <h2>Load Your Arsenal</h2>
                                 {selectedFile && <p className={styles.selectedFile}><em className={styles.em}>💣 Selected Munition :</em> {selectedFile.name || gifTitle} 💣</p>}
-                                <form onSubmit={handleSubmit} className={styles.form}>
+                                {/* <form onSubmit={handleSubmit} className={styles.form}> */}
                                     <input
                                         type="file"
                                         id="fileInput"
@@ -232,7 +360,7 @@ const NewBomb = () => {
                                         
                                     />
                                     <label htmlFor="fileInput"className={styles.fileInputLabel}>Browse File </label>
-                                </form>
+                                {/* </form> */}
                                 <hr />
                                 <nav className={styles.profileNavbar}>
                                 <div className={styles.navBarButtonsWrapper}>
@@ -283,35 +411,24 @@ const NewBomb = () => {
                                 <div className={styles.postImage} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
                             </div>
                                 <h2>Chosose your Target  </h2>
+                                {selectedTarget && <p className={styles.selectedFile}><em className={styles.em}>🎯 Selected Target :</em> {selectedTarget} 🎯</p>}
                                 <input className={styles.searchBar} style={{marginBottom: "32px"}} type="text" placeholder='Search' />
+                                <p>{selectedTarget}</p>
                                     <ul className={styles.targetProfilesList}>
                                         <span onClick={() => setSelectedTarget("asd")}></span>
-                                        {/* <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile>
-                                        <TargetProfile></TargetProfile> */}
-                                        {foundUsers && foundUsers.length > 0 ? (
-                                            foundUsers.map((user) => (
-                                                <span key={user.id}>
-                                                    <TargetProfile name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></TargetProfile>
-                                                </span>
-                                            ))
-                                        ) : (
-                                            users.map((user) => (
-                                                <span key={user.id}>
-                                                    <TargetProfile name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></TargetProfile>
-                                                </span>
-                                            ))
-                                        )}
-                                            
-                                        
+                                            {foundUsers && foundUsers.length > 0 ? (
+                                                foundUsers.map((user) => (
+                                                    <span key={user.id} onClick={() => handleSelectTargetUser(user)} className={styles.targetProfileWrapaper}>
+                                                        <TargetProfile name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></TargetProfile>
+                                                    </span>
+                                                ))
+                                            ) : (
+                                                users.map((user) => (
+                                                    <span key={user.id} onClick={() => handleSelectTargetUser(user)} className={styles.targetProfileWrapaper}>
+                                                        <TargetProfile name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></TargetProfile>
+                                                    </span>
+                                                ))
+                                            )}
                                     </ul>
                                 <div className={styles.stepWrapper}>
                             </div>
@@ -327,7 +444,9 @@ const NewBomb = () => {
                                 </div>
                             </div>
                             <h2>Add a Message</h2>
-                            <input className={styles.input} type='text' placeholder='Write a message'/>
+                            <input className={styles.input} value={bombMessage} onChange={(e) => setBombMessage(e.target.value)} type='text' placeholder='Write a message'/>
+                            <p>Messaage: {bombMessage}</p>
+                            <button onClick={()=> handleNewPost()}>Bomb!</button>
                             </div>
                         </Step>
                         {/*===================== STEP 4 =====================*/}
@@ -345,7 +464,8 @@ const NewBomb = () => {
                                         <div className={styles.profilePic} style={{backgroundImage: `url(/default-profile.png)`}}></div>
                                     </div>
                                 </div>
-                                <h2>'Target.username' was struck by your bomb! </h2>
+                                <h2>{selectedTarget} <br /> was struck by  your bomb! </h2>
+                                
                             </div>
                         </Step>
                     </Stepper>

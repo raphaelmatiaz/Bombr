@@ -15,25 +15,25 @@ const suggestedProfile = (props: suggestedProfileProps) => {
     return(
         <div className={styles.componentWrapper}>
         {props.username ? (
-            <>
-                <Link className={styles.link} href={`/profile/${props.username}`}>
-                    <div className={styles.suggestedProfile}>
+            <div className={styles.suggestedProfileWrapper}>
+                <div className={styles.suggestedProfile}>
+                    <Link className={styles.link} href={`/profile/${props.username}`}>
                         <div className={styles.profileImage}></div>
                         <p className={styles.profileUsername}>{props.username}</p>
-                    </div>
-                </Link>
-                <button className={styles.declareWarButton}>Declare War</button>
-            </>
+                    </Link>
+                    <button className={styles.declareWarButton}>Declare War</button>
+                </div>
+            </div>
         ) : (
-            <>
-                <Link className={styles.link} href={`/profile/${props.name}`}>
-                    <div className={styles.suggestedProfile}>
+            <div className={styles.suggestedProfileWrapper}>
+                <div className={styles.suggestedProfile}>
+                    <Link className={styles.link} href={`/profile/${props.name}`}>
                         <div className={styles.profileImage}></div>
                         <p className={styles.profileUsername}>{(props.name ?? '').replace(/%20/g, ' ')}</p>
-                    </div>
-                </Link>
-                <button className={styles.declareWarButton}>Declare War</button>
-            </>
+                    </Link>
+                    <button className={styles.declareWarButton}>Declare War</button>
+                </div>
+            </div>
         )}
         </div>
     )

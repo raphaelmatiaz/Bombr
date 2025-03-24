@@ -1,14 +1,17 @@
 
 .friendSuggestionsWrapper {
-    min-width: 328px;
-    width: fit-content;
-    /* border: 1px solid black; */
-    /* position: fixed; */
-    /* right: 0; */
+    width: 100%;
+    /* border: 4px dotted red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
 }
 
 .worthyFoes {
     font-size: 2.4rem;
     font-weight: 600;
     margin-bottom: 40px;
+    /* text-align: center; */
+    padding: 0px;
 }

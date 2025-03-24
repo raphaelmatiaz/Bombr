@@ -1,18 +1,23 @@
+import Link from 'next/link'
 import styles from './post.module.css'
 
 const Post = () => {
     return(
         <div className={styles.postWrapper}>
             <header className={styles.postHeader}>
-                <div className={styles.userProfileWrapper}>
-                    <div className={styles.userProfilePic}></div>
-                    <p className={styles.userProfileUsername}>dew-johnostrills</p>
-                </div>
+                <Link href={`/profile/dew-johnostrills`}>
+                    <div className={styles.userProfileWrapper}>
+                        <div className={styles.userProfilePic}></div>
+                        <p className={styles.userProfileUsername}>dew-johnostrills</p>
+                    </div>
+                </Link>
                 <p className={styles.bombedBy}>got bombed by...</p>
-                <div className={styles.userProfileWrapper}>
-                    <div className={styles.userProfilePic}></div>
-                    <p className={styles.userProfileUsername}>stonker6000K</p>
-                </div>
+                <Link href={`/profile/stonker6000K`}>
+                    <div className={styles.userProfileWrapper}>
+                        <div className={styles.userProfilePic}></div>
+                        <p className={styles.userProfileUsername}>stonker6000K</p>
+                    </div>
+                </Link>
             </header>
             <div className={styles.postContent}></div>
             <footer className={styles.postFooter}>

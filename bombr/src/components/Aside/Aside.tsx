@@ -7,7 +7,7 @@ import styles from './aside.module.css'
 // import { User } from "../../types/user";
 // import { getUsers } from "../../lib/getUsers";
 import { useEffect, useState } from "react";
-import { User } from "../../types/user";
+import  User from "@/types/user";
 import Link from "next/link";
 const Aside = ()  => {
 
@@ -46,7 +46,7 @@ const Aside = ()  => {
                 <ul>
                     {users.map((user) => (
                         
-                            <SuggestedProfile key={user.id} name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></SuggestedProfile>
+                      <SuggestedProfile key={user.id} name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></SuggestedProfile>
                      
                     ))}
                 </ul>

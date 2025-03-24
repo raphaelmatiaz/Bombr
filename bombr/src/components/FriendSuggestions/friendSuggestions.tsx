@@ -11,9 +11,9 @@ const friendSuggestions = (props: FriendSuggestionsProps) => {
     return(
         <div className={styles.friendSuggestionsWrapper}>
             <p className={styles.worthyFoes}>Worthy Foes for You</p>
-            <div>
+            <ul>
                 {props.children}
-            </div>
+            </ul>
         </div>
     )
 }
