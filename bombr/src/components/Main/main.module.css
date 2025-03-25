@@ -68,3 +68,9 @@
         min-height: 100vh;
     }
 }
+/* 
+@media screen and (max-width: 630px) {
+    .mainChildren {
+        min-width: 100vw;
+    }
+} */

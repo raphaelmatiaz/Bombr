@@ -34,22 +34,6 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model User {
-  id            String    @id @default(cuid())
-  email         String?   @unique
-  profileId     Int?
-  emailVerified DateTime?
-  image         String?
-  name          String?
-  password      String?
-  fullName      String?
-  username      String?
-  accounts      Account[]
-  Profile       Profile?
-  sessions      Session[]
-  followers     Profile?  @relation("Followers", fields: [profileId], references: [id], map: "User_followers_profileId_fkey")
-}
-
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -58,22 +42,94 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Profile {
-  id            Int    @id @default(autoincrement())
-  bio           String
-  userId        String @unique
-  PostsReceived Post[] @relation("ReceivedPosts")
-  PostsSent     Post[] @relation("SentPosts")
-  user          User   @relation(fields: [userId], references: [id])
-  Followers     User[] @relation("Followers")
+// model User {
+//   id              String    @id @default(cuid())
+//   email           String?   @unique
+//   profileId       Int?
+//   emailVerified   DateTime?
+//   image           String?
+//   name            String?
+//   password        String?
+//   fullName        String?
+//   username        String?   @unique
+//   accounts        Account[]
+//   sessions        Session[]
+//   sentPosts       Post[] @relation("SentPosts")
+//   receivedPosts   Post[] @relation("ReceivedPosts")
+//   likedPosts      Post[] @relation("LikedPosts")
+//   commentedPosts  Post[] @relation("CommentedPosts")
+//   createdAt       DateTime @default(now())
+//   updatedAt       DateTime @updatedAt
+//   followedBy      User[] @relation("FollowedBy", fields: [followerId], references: [id])
+//   followerId      String
+//   following       User[] @relation("FollowedBy")
+//   userId          String
+// }
+
+model User {
+  id              String    @id @default(cuid())
+  email           String?   @unique
+  profileId       Int?
+  emailVerified   DateTime?
+  image           String?
+  name            String?
+  password        String?
+  fullName        String?
+  username        String?   @unique
+  accounts        Account[]
+  sessions        Session[]
+  sentPosts       Post[] @relation("SentPosts")
+  receivedPosts   Post[] @relation("ReceivedPosts")
+  likedPosts      Post[] @relation("LikedPosts")
+  commentedPosts  Post[] @relation("CommentedPosts")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Many-to-Many Self-Referential Relationship
+  following   Follow[] @relation("UserFollowsFollowing")
+  followers   Follow[] @relation("UserFollowsFollowers")
 }
 
-model Post {
-  id         Int     @id @default(autoincrement())
-  content    String?
-  senderId   Int
-  receiverId Int
-  message    String?
-  receiver   Profile @relation("ReceivedPosts", fields: [receiverId], references: [id])
-  sender     Profile @relation("SentPosts", fields: [senderId], references: [id])
+model Follow {
+  followerId  String
+  followingId String
+
+  follower  User @relation("UserFollowsFollowers", fields: [followerId], references: [id])
+  following User @relation("UserFollowsFollowing", fields: [followingId], references: [id])
+
+  @@id([followerId, followingId]) // Composite key to prevent duplicate follows
 }
+
+
+
+model Post {
+  id              Int     @id @default(autoincrement())
+  content         String
+  message         String?
+	sentBy          User @relation("SentPosts", fields: [senderId], references: [id])
+  senderId        String
+  receivedBy      User @relation("ReceivedPosts", fields: [receiverId], references: [id])
+  receiverId      String 
+  likedBy         User @relation("LikedPosts", fields: [likerId], references: [id])
+  likerId         String
+  commentedBy     User @relation("CommentedPosts", fields: [commenterId], references: [id])
+  commenterId     String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+
+// model Profile {
+//   id            Int    @id @default(autoincrement())
+//   bio           String
+//   // userId        String @unique
+//   PostsReceived Post[] @relation("ReceivedPosts")
+//   PostsSent     Post[] @relation("SentPosts")
+//   // user          User   @relation(fields: [userId], references: [id])
+//   Followers     User[] @relation("Followers")
+//   // User          User?  @relation(fields: [profileId], references: [id])
+// }
+
+
+  // Profile       Profile  @relation(fields: [profileId], references: [id], onDelete: SetNull)
+  // followers     Profile?  @relation("Followers", fields: [profileId], references: [id], map: "User_followers_profileId_fkey")
