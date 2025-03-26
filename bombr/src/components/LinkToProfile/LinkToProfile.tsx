@@ -10,7 +10,7 @@ const LinkToProfile = () => {
     console.log(session?.user?.fullname)
 
     return(
-        <Link className={styles.link} href="/profile">
+        <Link className={styles.link} href={`/profile/${session?.user?.name}`}>
             <div className={styles.wrapper}>
                 <div className={styles.profileImage} style={{backgroundImage: `url(${session?.user?.image})`}}></div>
                 <p className={styles.profileUsername}>{session?.user?.username || session?.user?.name}</p>

@@ -17,7 +17,7 @@ const Aside = ()  => {
     const [users, setUsers] = useState<User[]>([]);
     const [error, setError] = useState<string | null>(null);
     const { data: session, status } = useSession();
-
+  
     useEffect(() => {
         async function fetchUsers() {
           try {
