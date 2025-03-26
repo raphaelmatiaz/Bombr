@@ -152,13 +152,13 @@ export async function POST(req: Request) {
         },
       });
 
-      // Now create the Profile, using the user's ID
-      const profile = await prisma.profile.create({
-        data: {
-          bio: "", // Default bio or handle as needed
-          userId: user.id, // Link the profile to the newly created user
-        },
-      });
+      // // Now create the Profile, using the user's ID
+      // const profile = await prisma.profile.create({
+      //   data: {
+      //     bio: "", // Default bio or handle as needed
+      //     userId: user.id, // Link the profile to the newly created user
+      //   },
+      // });
 
       // Return the newly created user object
       return user;

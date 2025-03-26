@@ -51,9 +51,26 @@ function Profile() {
                         )}
                         <div className={styles.profileInfo}>
                             <div className={styles.nameInfoWrapper}>
-
-                                <h1 className={styles.userNickname}>{session?.user?.username || session?.user?.name}</h1>
-                                <h2 className={styles.userFullName}>{session?.user?.fullname || session?.user?.name}</h2>
+                                {session?.user?.username && (
+                                    <>
+                                        <h1 className={styles.userNickname}>{session?.user?.username}</h1>
+                                        <h2 className={styles.userFullName}>{session?.user?.username}</h2>
+                                    </>
+                                )}
+                                {session?.user?.username && session?.user?.fullname && (
+                                    <>
+                                        <h1 className={styles.userNickname}>{session?.user?.username}</h1>
+                                        <h2 className={styles.userFullName}>{session?.user?.fullname}</h2>
+                                    </>
+                                )}
+                                {session?.user?.username === null && session?.user?.fullname === null && (
+                                    <>
+                                        <h1 className={styles.userNickname}>{session?.user?.username || session?.user?.name}</h1>
+                                        <h2 className={styles.userFullName}>{session?.user?.fullname || session?.user?.name}</h2>
+                                    </>
+                                )}
+                                {/* <h1 className={styles.userNickname}>{session?.user?.username || session?.user?.name}</h1>
+                                <h2 className={styles.userFullName}>{session?.user?.fullname || session?.user?.name}</h2> */}
                             </div>
                             <div className={styles.globalStatsWrapper}>
                                 <span className={styles.statRow}>

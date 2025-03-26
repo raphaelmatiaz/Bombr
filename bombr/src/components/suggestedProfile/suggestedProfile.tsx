@@ -6,6 +6,7 @@ interface suggestedProfileProps {
     name?: string
     username?: string
     fullName?: string
+    id?: string
 }
 
 const suggestedProfile = (props: suggestedProfileProps) => {
@@ -27,7 +28,8 @@ const suggestedProfile = (props: suggestedProfileProps) => {
         ) : (
             <div className={styles.suggestedProfileWrapper}>
                 <div className={styles.suggestedProfile}>
-                    <Link className={styles.link} href={`/profile/${props.name}`}>
+                    {/* // antes tava /profile/'{props.name}' aqui por baixo */}
+                    <Link className={styles.link} href={`/profile/${props.id}`}> 
                         <div className={styles.profileImage}></div>
                         <p className={styles.profileUsername}>{(props.name ?? '').replace(/%20/g, ' ')}</p>
                     </Link>

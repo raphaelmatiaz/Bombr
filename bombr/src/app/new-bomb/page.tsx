@@ -122,7 +122,7 @@ const NewBomb = () => {
 
     useEffect(() => {
         if (search.trim() === '') {
-        fetchGifs('funny'); // Default search term
+        fetchGifs('funny'); // Default search term for GIFs
         } else {
         fetchGifs(search); // Fetch GIFs based on search term
         }
@@ -155,7 +155,33 @@ const NewBomb = () => {
         }
 
         fetchUsers();
-      }, []);
+        const fetchUser = async () => {
+            console.log("fetchUser Called");
+            if (session) {
+            console.log('if session entered')
+            try {
+                console.log("Try entered");
+                const postData = {
+                    content: String(selectedFile),
+                    senderId: session.user.id,
+                    receiverId: selectedTarget,
+                    message: bombMessage,
+                };
+                const res = await fetch(`/api/newBomb/${postData}`);
+                
+                if (!res.ok) {
+                    console.log("If NOT OK entered");
+                    throw new Error("Failed to fetch user");
+                }
+            } catch (err) {
+                setError((err as Error).message);
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchUser();
+    }}, []);
     
     // Handle file selection
     const handleFileChange = (event: FileChangeEvent): void => {
@@ -180,104 +206,70 @@ const NewBomb = () => {
         if (user.fullName) {
             setSelectedTarget(user.fullName)
         }}
-        // else {
-        //     setSelectedTarget(user.id)
-        // }}
-    
-    // Handle New Post
-    // const handleNewPost = async () => {
-    //     if (!session || !selectedFile) return;
-
-    //     // se a file for um upload, e não um conteude de API (gif ou meme):
-    //         // guardar a file no 'UploadThing'
-
-    //     // se a file for um conteudo de API (gif ou meme):
-    //         // guardar o url diretamente na db 'Xata'
-
-    //     console.log("Selected File:", selectedFile, typeof selectedFile);
-    
-    //     const fileToBase64 = async (file: File) => {
-    //         return new Promise<string>((resolve, reject) => {
-    //             const reader = new FileReader();
-    //             reader.readAsDataURL(file);
-    //             reader.onload = () => resolve(reader.result as string);
-    //             reader.onerror = (error) => reject(error);
-    //         });
-    //     };
-    
-    //     try {
-    //         const base64String = await fileToBase64(selectedFile);
-    
-    //         // aqui antes tava 'const user'
-    //         const post = await prisma.post.create({
-    //             data: {
-    //                 content: base64String, // Store as a Base64 string
-    //                 senderId: Number(session.user.id),
-    //                 receiverId: Number(selectedTarget),
-    //                 message: bombMessage,
-    //             },
-    //         });
-    //     } catch (error) {
-    //         console.error("Error encoding file:", error);
-    //     }
-    // };
-
-    //selectedFile: File | null, session: any, selectedTarget: number, bombMessage: string
-    const handleNewPost = async () => {
-        if (!session || !selectedFile) return;
-    
-        try {
-            // 🔹 Step 1: Upload File to UploadThing
-            const formData = new FormData();
-            formData.append("file", selectedFile);
-    
-            const response = await fetch("/api/uploadthing", {
-                method: "POST",
-                body: formData,
-            });
-    
-            if (!response.ok) throw new Error("File upload failed");
-    
-            const { fileUrl } = await response.json(); // 🔹 Get the file URL
-    
-            console.log("Uploaded file URL:", fileUrl);
-    
-            // 🔹 Step 2: Store the File URL in XataDB
-            await prisma.post.create({
-                data: {
-                    content: fileUrl, // Store URL in XataDB
-                    senderId: Number(session.user.id),
-                    receiverId: Number(selectedTarget),
+        
+        const handleNewPost = async () => {
+            console.log("handleNewPost Called");
+            if (!session || !selectedFile) return;
+            console.log("if session entered");
+        
+            try {
+                console.log("Try entered");
+                const postData = {
+                    content: String(selectedFile),
+                    senderId: session.user.id,
+                    receiverId: targetUser?.id,
                     message: bombMessage,
-                },
-            });
+                };
+        
+                const res = await fetch(`/api/newBomb`, {  // ✅ Remove postData from URL
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(postData),  // ✅ Send data in the request body
+                });
+        
+                if (!res.ok) {
+                    throw new Error("Failed to post NewBomb");
+                }
+        
+                console.log("If Response OK entered");
+                console.log("Post sent Successfully");
+            } catch (err) {
+                setError((err as Error).message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+    useEffect(() => {
+            const fetchUser = async () => {
+                console.log("useEffect Triggered")
+              try {
+                console.log("Try entered")
+                const res = await fetch(`/api/user/${selectedTarget}`);
+                
+                if (!res.ok) {
+                  throw new Error("Failed to fetch user");
+                  console.log("If NOT OK entered")
+                }
+                
+                const data: User = await res.json();    // NÃO CONSIGO IR BUSCAR ESTE USER
+                console.log("USER QUE ESTOU A TENTAR IR BUSCAR: ", data)
+                setTargetUser(data);                    
+              } catch (err) {
+                setError((err as Error).message);
+              } finally {
+                setLoading(false);
+              }
+            };
+        
+            if (selectedTarget) {
+              fetchUser();
+            }
+          }, [selectedTarget]);
     
-            console.log("Post successfully saved!");
-        } catch (error) {
-            console.error("Error uploading file or saving post:", error);
-        }
-    };
-
-    // // Handle target user selection
-    // useEffect(() => {
-    //     const fetchUser = async () => {
-    //         const user = await prisma.user.findUnique({
-    //             where: {
-    //                 id: `${selectedTarget}`,
-    //             },
-    //         });
-    //         setTargetUser(user);
-    //     };
-    //     fetchUser();
-    // }, [selectedTarget])
-
-    // Handle Set Message
-    // const handleSetMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setBombMessage(event.target.value);
-    //     setTimeout(() => {}, 100)
-    //     console.log("Message:", bombMessage)
-    // };
-
+   
     const handleGifClick = (gif: any) => {
         // setSelectedFile(gif.images.original.url);
         setSelectedFile(gif.images.fixed_height.webp);
@@ -293,15 +285,6 @@ const NewBomb = () => {
 
     interface SubmitEvent extends React.FormEvent<HTMLFormElement> {}
 
-    // Handle form submission
-    // const handleSubmit = (event: SubmitEvent): void => {
-    //     event.preventDefault();
-    //     if (selectedFile) {
-    //         console.log("Submitting file:", selectedFile);
-    //         // Here, you'd send the file to your backend or API
-    //     }
-    // };
-
     // API Nav UI (Memes vs Gifs)
     const ListMemes = async () => {
         // const { data: gifs } = await gf.trending({ limit: 10 })
@@ -314,8 +297,6 @@ const NewBomb = () => {
         setBarPosition("0")   
     }
 
-
-   
     return (
         <div className={styles.newBombview}>
             <MainSection>
@@ -414,6 +395,7 @@ const NewBomb = () => {
                                 {selectedTarget && <p className={styles.selectedFile}><em className={styles.em}>🎯 Selected Target :</em> {selectedTarget} 🎯</p>}
                                 <input className={styles.searchBar} style={{marginBottom: "32px"}} type="text" placeholder='Search' />
                                 <p>{selectedTarget}</p>
+                                <p>{targetUser?.id}</p>
                                     <ul className={styles.targetProfilesList}>
                                         <span onClick={() => setSelectedTarget("asd")}></span>
                                             {foundUsers && foundUsers.length > 0 ? (

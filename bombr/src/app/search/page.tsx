@@ -133,6 +133,7 @@ function Home() {
               filteredUsers.map((user) => (
                 <span key={user.id}>
                   <SuggestedProfile
+                    id={user.id}
                     name={user.name ?? ""}
                     username={user.username ?? ""}
                     fullName={user.fullName ?? ""}

@@ -46,7 +46,7 @@ const Aside = ()  => {
                 <ul>
                     {users.map((user) => (
                         
-                      <SuggestedProfile key={user.id} name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></SuggestedProfile>
+                      <SuggestedProfile key={user.id} id={user.id} name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></SuggestedProfile>
                      
                     ))}
                 </ul>
