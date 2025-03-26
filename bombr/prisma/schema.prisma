@@ -67,24 +67,24 @@ model VerificationToken {
 // }
 
 model User {
-  id             String    @id @default(cuid())
-  email          String?   @unique
-  profileId      Int?
-  emailVerified  DateTime?
-  image          String?
-  name           String?
-  password       String?
-  fullName       String?
-  username       String?   @unique
-  bio            String?
-  accounts       Account[]
-  sessions       Session[]
-  sentPosts      Post[]    @relation("SentPosts")
-  receivedPosts  Post[]    @relation("ReceivedPosts")
-  likedPosts     Post[]    @relation("LikedPosts")
-  commentedPosts Post[]    @relation("CommentedPosts")
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id            String    @id @default(cuid())
+  email         String?   @unique
+  profileId     Int?
+  emailVerified DateTime?
+  image         String?
+  name          String?
+  password      String?
+  fullName      String?
+  username      String?   @unique
+  bio           String?
+  accounts      Account[]
+  sessions      Session[]
+  sentPosts     Post[]    @relation("SentPosts")
+  receivedPosts    Post[]   @relation("ReceivedPosts")
+  likedPosts       Post[]   @relation("LikedPosts")
+  commentedPosts   Post[]   @relation("CommentedPosts")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   // Many-to-Many Self-Referential Relationship
   following Follow[] @relation("UserFollowsFollowing")
@@ -105,13 +105,13 @@ model Post {
   id          Int      @id @default(autoincrement())
   content     String
   message     String?
-  sentBy      User     @relation("SentPosts", fields: [senderId], references: [id])
+  sentBy      User     @relation("SentPosts", fields: [senderId], references: [id], onDelete: Cascade)
   senderId    String
-  receivedBy  User     @relation("ReceivedPosts", fields: [receiverId], references: [id])
+  receivedBy  User     @relation("ReceivedPosts", fields: [receiverId], references: [id], onDelete: Cascade)
   receiverId  String
-  likedBy     User?    @relation("LikedPosts", fields: [likerId], references: [id])
+  likedBy     User?    @relation("LikedPosts", fields: [likerId], references: [id], onDelete: Cascade)
   likerId     String?
-  commentedBy User?    @relation("CommentedPosts", fields: [commenterId], references: [id])
+  commentedBy User?    @relation("CommentedPosts", fields: [commenterId], references: [id], onDelete: Cascade)
   commenterId String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

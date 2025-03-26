@@ -8,4 +8,6 @@ export default interface User {
   username: string | null;
   emailVerified: Date | null;
   profileId: number | null;
+  sentPosts: any;
+  receivedPosts: any;
 }

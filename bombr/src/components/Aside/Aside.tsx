@@ -9,12 +9,14 @@ import styles from './aside.module.css'
 import { useEffect, useState } from "react";
 import  User from "@/types/user";
 import Link from "next/link";
+import { useSession } from "next-auth/react"
 const Aside = ()  => {
 
     // const users = await getUsers();
     // console.log(users)
     const [users, setUsers] = useState<User[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const { data: session, status } = useSession();
 
     useEffect(() => {
         async function fetchUsers() {
@@ -43,13 +45,11 @@ const Aside = ()  => {
             <LinkToProfile></LinkToProfile>
 
             <FriendSuggestions>
-                <ul>
-                    {users.map((user) => (
-                        
-                      <SuggestedProfile key={user.id} id={user.id} name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></SuggestedProfile>
-                     
-                    ))}
-                </ul>
+            <ul>
+              {session && users.filter((user) => user.email !== session.user?.email).map((user) => (
+              <SuggestedProfile key={user.id} id={user.id} name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></SuggestedProfile>
+              ))}
+            </ul>
             </FriendSuggestions>
         </span>
     )

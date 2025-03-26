@@ -130,6 +130,7 @@ function Home() {
           
           <ul className={styles.ul}>
             {filteredUsers.length > 0 ? (
+              
               filteredUsers.map((user) => (
                 <span key={user.id}>
                   <SuggestedProfile
