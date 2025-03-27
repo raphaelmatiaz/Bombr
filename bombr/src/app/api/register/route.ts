@@ -141,7 +141,7 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Prisma transaction to create both User and Profile
-    const newUser = await prisma.$transaction(async (prisma) => {
+    await prisma.$transaction(async (prisma) => {
       // First, create the User
       const user = await prisma.user.create({
         data: {

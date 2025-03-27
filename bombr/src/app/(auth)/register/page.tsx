@@ -15,21 +15,19 @@ function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const { data: session, status } = useSession();
+    const { data: status } = useSession();
 
     // Redirect user to /home-feed if they are authenticated
     useEffect(() => {
-    if (status === "authenticated") {
+    if (status) {
         router.push('/home-feed');
     }
     }, [status, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError("");
+        
 
         // Set Full Name
         const fullName = `${firstName} ${lastName}`;
@@ -62,7 +60,7 @@ function Register() {
 
         
     
-        setLoading(true);
+
     
         try {
           const response = await fetch("/api/register", {
@@ -79,12 +77,10 @@ function Register() {
     
           // Registo bem-sucedido, redirecionar para login
           router.push("/login");
-        } catch (err: any) {
-          setError(err.message);
-        } finally {
-          setLoading(false);
+        } catch (err) {
+            console.log(err);
         }
-      };
+      }
 
     return(
         <ClickSpark

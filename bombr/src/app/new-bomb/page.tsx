@@ -9,6 +9,8 @@ import User from "@/types/user.ts";
 import Gif from '@/types/gif.ts'
 import Meme from '@/types/meme.ts'
 import { useSession } from 'next-auth/react';
+import Link from 'next/link'
+import Crosshair from '@/blocks/Animations/Crosshair/Crosshair';
 
 interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {
     target: HTMLInputElement & EventTarget;
@@ -17,7 +19,7 @@ interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 const NewBomb = () => {
 
     // Form Data
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | Gif | Meme | string | null>(null);
     const [selectedTarget, setSelectedTarget] = useState("")
     const [targetUser, setTargetUser] = useState<User | null>(null)
     const [bombMessage, setBombMessage] = useState("")
@@ -41,6 +43,8 @@ const NewBomb = () => {
     const [search, setSearch] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [gifTitle, setGifTitle] = useState<string>('');
+    
+    // Shooting target animation effect
     // const containerRef = useRef(null);
 
     // Session
@@ -148,16 +152,16 @@ const NewBomb = () => {
     };
 
     // handleSelectTargetUser
-    const handleSelectTargetUser = (user: User) => {
-        if (user.username) {
-            setSelectedTarget(user.username)
-            return}
-        if (user.name) {
-            setSelectedTarget(user.name)
-        }
-        if (user.fullName) {
-            setSelectedTarget(user.fullName)
-        }}
+    // const handleSelectTargetUser = (user: User) => {
+    //     if (user.username) {
+    //         setSelectedTarget(user.username)
+    //         return}
+    //     if (user.name) {
+    //         setSelectedTarget(user.name)
+    //     }
+    //     if (user.fullName) {
+    //         setSelectedTarget(user.fullName)
+    //     }}
         
         const handleNewPost = async () => {
             console.log("handleNewPost Called");
@@ -341,6 +345,9 @@ const NewBomb = () => {
                         </Step>
                         {/*===================== STEP 2 =====================*/}
                         <Step>
+                        
+                            <Crosshair  color='#000'/> 
+                        
                             <div className={styles.postImageWrapper}>
                                 
                                 <div className={styles.postImage} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
@@ -348,24 +355,25 @@ const NewBomb = () => {
                                 <h2>Chosose your Target  </h2>
                                 {selectedTarget && <p className={styles.selectedFile}><em className={styles.em}>🎯 Selected Target :</em> {selectedTarget} 🎯</p>}
                                 <input className={styles.searchBar} style={{marginBottom: "32px"}} type="text" placeholder='Search' />
-                                <p>{selectedTarget}</p>
-                                <p>{targetUser?.id}</p>
-                                    <ul className={styles.targetProfilesList}>
-                                        <span onClick={() => setSelectedTarget("asd")}></span>
-                                            {foundUsers && foundUsers.length > 0 ? (
-                                                foundUsers.map((user) => (
-                                                    <span key={user.id} onClick={() => handleSelectTargetUser(user)} className={styles.targetProfileWrapaper}>
-                                                        <TargetProfile name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></TargetProfile>
-                                                    </span>
-                                                ))
-                                            ) : (
-                                                users.map((user) => (
-                                                    <span key={user.id} onClick={() => handleSelectTargetUser(user)} className={styles.targetProfileWrapaper}>
-                                                        <TargetProfile name={user.name ?? ''} username={user.username ?? ''} fullName={user.fullName ?? ''}></TargetProfile>
-                                                    </span>
-                                                ))
-                                            )}
+                                {/* <p>{selectedTarget}</p>
+                                <p>{targetUser?.id}</p> */}
+                                <ul className={styles.targetProfilesList}>
+                                        
+                                        {foundUsers && foundUsers.length > 0 ? (
+                                            foundUsers.filter((user) => user.email !== session.user?.email).map((user) => (
+                                                <li key={user.id} onClick={() => setSelectedTarget(user.username)} className={styles.targetProfileWrapaper}>
+                                                    <TargetProfile
+                                                        name={user.name ?? ''} 
+                                                        username={user.username ?? ''} 
+                                                        fullName={user.fullName ?? ''}>
+                                                    </TargetProfile> 
+                                                </li>
+                                            ))
+                                        ) : (
+                                            <p>No users found</p>
+                                        )}
                                     </ul>
+
                                 <div className={styles.stepWrapper}>
                             </div>
                         </Step>
@@ -379,10 +387,10 @@ const NewBomb = () => {
                                     <div className={styles.profilePic} style={{backgroundImage: `url(/default-profile.png)`}}></div>
                                 </div>
                             </div>
-                            <h2>Add a Message</h2>
-                            <input className={styles.input} value={bombMessage} onChange={(e) => setBombMessage(e.target.value)} type='text' placeholder='Write a message'/>
-                            <p>Messaage: {bombMessage}</p>
-                            <button onClick={()=> handleNewPost()}>Bomb!</button>
+                            <h2>It&#39;s all about <br /> Sending a Message</h2>
+                            <input className={styles.input} value={bombMessage} onChange={(e) => setBombMessage(e.target.value)} type='text' placeholder='Write a message' style={{marginBottom: "32px"}}/>
+                            {/* <p>Messaage: {bombMessage}</p> */}
+                            <button onClick={()=> handleNewPost()} className={styles.bombButton}>Bomb!</button>
                             </div>
                         </Step>
                         {/*===================== STEP 4 =====================*/}
@@ -401,7 +409,7 @@ const NewBomb = () => {
                                     </div>
                                 </div>
                                 <h2>{selectedTarget} <br /> was struck by  your bomb! </h2>
-                                
+                                <Link className={styles.bombButton} href={`/profile/${selectedTarget}`}>View Damage!</Link>
                             </div>
                         </Step>
                     </Stepper>

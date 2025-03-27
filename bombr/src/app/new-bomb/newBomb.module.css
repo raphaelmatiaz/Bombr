@@ -302,6 +302,20 @@
     cursor: pointer;
 }
 
+.bombButton {
+    background-color: var(--color-cta);
+    text-decoration: none;
+    /* border: 1px solid red; */
+    min-width: 100%;
+    padding: 12px 0;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 30px;
+    color: white;
+    font-size: 2rem;
+    white-space: nowrap;
+}
+
 @media (max-width: 968px) {
 .stepperWrapper {
     width: 100%;
@@ -359,9 +373,6 @@
     /* border: 4px solid red; */
   }
 
-  .searchBar { 
-    /* max-width: 90%; */
-  }
   }
 @keyframes spinningInfinite {
     0% {

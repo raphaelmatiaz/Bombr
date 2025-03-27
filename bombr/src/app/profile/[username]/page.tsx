@@ -141,23 +141,35 @@ function Profile({ params }: { params: Promise<{ username: string; fullname: str
                     </nav>
                     <main className={styles.profileContentWrapper}>
                     <ul className={styles.contentList}>
-                        {/* Nota: Aqui não consegui atribuir o type 'Post' ao meu post sem haaver problemas, por isso usei 'any', e não cosegui usar 'Image' em vez de 'img' porque causava problemas com o 'src' attribute */}
-                            {postListType === "received" && (
-                                <div>
-                                    {currentUser.receivedPosts.map((post: Post) => (
-                                        <img key={post.id} src={post.content} alt="Post image" />
-                                    ))}
-                                </div>
-                            )}
+    {postListType === "received" && (
+        <div>
+            {currentUser.receivedPosts.length === 0 ? (
+                <div className={styles.noBombsYet}>
+                    <p> 🕊️ Safe zone: This area has not received any bomb strike so far... 🕊️</p>
+                </div>
+                
+            ) : (
+                currentUser.receivedPosts.map((post: Post) => (
+                    <img key={post.id} src={post.content} alt="Post image" />
+                ))
+            )}
+        </div>
+    )}
 
-                            {postListType === "sent" && (
-                                <>
-                                    {currentUser.sentPosts.map((post: Post) => (
-                                        <img key={post.id} src={post.content} alt="Post image" />
-                                    ))}
-                                </>
-                            )}
-                        </ul>
+    {postListType === "sent" && (
+        <div>
+            {currentUser.sentPosts.length === 0 ? (
+                <div className={styles.noBombsYet}>
+                    <p>Preparing for battle: No bombs sent yet, but war will soon ring. Peace is not an option...</p>
+                </div>
+            ) : (
+                currentUser.sentPosts.map((post: Post) => (
+                    <img key={post.id} src={post.content} alt="Post image" />
+                ))
+            )}
+        </div>
+    )}
+</ul>
                     </main>
                 </div>
             </main>

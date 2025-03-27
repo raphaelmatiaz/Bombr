@@ -1,5 +1,5 @@
 import styles from './targetProfile.module.css'
-import Link from 'next/link'
+
 
 interface TargetProfileProps {
     name: string;
@@ -8,7 +8,7 @@ interface TargetProfileProps {
     onClickEvent?: () => void
 }
 
-const targetProfile: React.FC<TargetProfileProps> = ({ name, username, fullName }) => {
+const targetProfile: React.FC<TargetProfileProps> = ({ name, username }) => {
     return(
         <div className={styles.componentWrapper}>
            <div className={styles.suggestedProfile}>

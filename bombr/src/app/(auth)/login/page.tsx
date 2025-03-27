@@ -2,9 +2,7 @@
 import LoginProviders from '../../../components/LoginProviders/LoginProviders.tsx'
 import Link from 'next/link'
 import styles from './login.module.css'
-import Dashboard from '../../../components/Auth/Dashboard.tsx'
 import ClickSpark from '../../../blocks/Animations/ClickSpark/ClickSpark.tsx'
-import SplashCursor from '../../../blocks/Animations/SplashCursor/SplashCursor.tsx'
 import Particles from '../../../blocks/Backgrounds/Particles/Particles.tsx';
 import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from 'react'
@@ -13,12 +11,12 @@ function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { data: session, status } = useSession();
+    const { data:status } = useSession();
     const router = useRouter();
     
     // Redirect user to /home-feed if they are authenticated
     useEffect(() => {
-    if (status === "authenticated") {
+    if (status) {
         router.push('/home-feed');
     }
     }, [status, router]);
@@ -104,7 +102,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <hr className={styles.horizontalRow} />
                     <LoginProviders></LoginProviders>
                     <hr className={styles.horizontalRow} />
-                    <p className={styles.p}>Don't have an account? <Link className={styles.anchor} href="/register">Sign up</Link></p>
+                    <p className={styles.p}>Dont have an account? <Link className={styles.anchor} href="/register">Sign up</Link></p>
                 </main>
             </div>
 
