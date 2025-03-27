@@ -173,7 +173,7 @@ const NewBomb = () => {
                     console.log("Try entered");
                     const postData = {
                         content: String(selectedFile),
-                        senderId: session.user?.id,
+                        senderId: (session.user as { id: string }).id,
                         receiverId: targetUser?.id,
                         message: bombMessage,
                     };
@@ -288,7 +288,7 @@ const NewBomb = () => {
                                 </div>
 
                                 <h2>Load Your Arsenal</h2>
-                                {selectedFile && <p className={styles.selectedFile}><em className={styles.em}>💣 Selected Munition :</em> {selectedFile.name || gifTitle} 💣</p>}
+                                {selectedFile && <p className={styles.selectedFile}><em className={styles.em}>💣 Selected Munition :</em> {selectedFile instanceof File ? selectedFile.name : gifTitle} 💣</p>}
                                 {/* <form onSubmit={handleSubmit} className={styles.form}> */}
                                     <input
                                         type="file"
@@ -360,8 +360,8 @@ const NewBomb = () => {
                                 <ul className={styles.targetProfilesList}>
                                         
                                         {foundUsers && foundUsers.length > 0 ? (
-                                            foundUsers.filter((user) => user.email !== session.user?.email).map((user) => (
-                                                <li key={user.id} onClick={() => setSelectedTarget(user.username)} className={styles.targetProfileWrapaper}>
+                                            foundUsers.filter((user) => session?.user && user.email !== session.user.email).map((user) => (
+                                                <li key={user.id} onClick={() => user.username && setSelectedTarget(user.username)} className={styles.targetProfileWrapaper}>
                                                     <TargetProfile
                                                         name={user.name ?? ''} 
                                                         username={user.username ?? ''} 
@@ -384,7 +384,12 @@ const NewBomb = () => {
                                 <div className={styles.munitionAndTargetWrapper}>
                                     <div className={styles.postImageStep3} style={{ backgroundImage: preview ? `url(${preview})` : "none" }}></div>
                                     <div className={styles.arrow}></div>
-                                    <div className={styles.profilePic} style={{backgroundImage: `url(/default-profile.png)`}}></div>
+                                    {targetUser && targetUser.image !== null ? (
+                                        <div className={styles.targetProfileImage} style={{ backgroundImage: `url(${targetUser.image})` }}></div>
+                                    ) : (
+                                        <div className={styles.profilePic} style={{ backgroundImage: `url(/default-profile.png)` }}></div>
+                                    )}
+
                                 </div>
                             </div>
                             <h2>It&#39;s all about <br /> Sending a Message</h2>

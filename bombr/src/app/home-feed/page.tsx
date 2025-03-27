@@ -22,7 +22,7 @@ function Home() {
       console.log("Session data:", session);
       // router.push('/login');
     }
-  }, [status, router]);
+  }, [status, router, session]);
 
   useEffect(() => {
     // update(); // Force session refresh

@@ -14,7 +14,7 @@ import { motion, AnimatePresence, Variants } from "framer-motion";
 
 import "./Stepper.css";
 import { useRouter } from "next/navigation";
-import { redirect } from "next/dist/server/api-utils";
+
 
 
 interface StepperProps extends HTMLAttributes<HTMLDivElement> {
@@ -280,7 +280,7 @@ interface StepProps {
   children: ReactNode;
 }
 
-export function Step({ children }: StepProps): JSX.Element {
+export function Step({ children }: StepProps): React.JSX.Element {
   return <div className="step-default">{children}</div>;
 }
 
@@ -357,9 +357,7 @@ function StepConnector({ isComplete }: StepConnectorProps) {
   );
 }
 
-interface CheckIconProps extends React.SVGProps<SVGSVGElement> {}
-
-function CheckIcon(props: CheckIconProps) {
+function CheckIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg {...props} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
       <motion.path
