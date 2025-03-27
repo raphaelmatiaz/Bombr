@@ -147,7 +147,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
-export async function GET(
+export default async function GET(
   req: NextRequest,
   { params }: { params: { username: string } } // Correct destructuring
 ) {
