@@ -2,12 +2,10 @@
 // import facebookIcon from '../../../public/facebookIcon.png'
 // import githubIcon from '../../../public/githubIcon.png'
 "use client"
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import styles from './LoginProviders.module.css';
 
 const LoginProviders = () => {
-
-    const { data: session } = useSession()
 
     return (
         <div className={styles.LoginProviders}>

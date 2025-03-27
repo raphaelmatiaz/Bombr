@@ -99,7 +99,7 @@ const NewBomb = () => {
             meme.name.toLowerCase().includes(search.toLowerCase())
         );
         setMemes(filteredMemes);
-      }, [search]);
+      },); // antes tava [search]
       
 
     useEffect(() => {

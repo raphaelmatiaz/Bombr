@@ -1,7 +1,6 @@
-import Logo from '../Logo/Logo.tsx'
-import NavItem from '../NavItem/navItem.tsx'
+
 import styles from './notification.module.css'
-import Link from 'next/link'
+
 
 const Notification = () => {
     return(
