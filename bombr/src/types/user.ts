@@ -1,3 +1,5 @@
+import Post  from '@/types/post.ts';
+
 export default interface User {
   id: string;
   name: string | null;
@@ -8,6 +10,6 @@ export default interface User {
   username: string | null;
   emailVerified: Date | null;
   profileId: number | null;
-  sentPosts: any;
-  receivedPosts: any;
+  sentPosts: Post[];
+  receivedPosts: Post[];
 }

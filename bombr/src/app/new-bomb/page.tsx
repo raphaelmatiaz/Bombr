@@ -1,36 +1,14 @@
 "use client"
 import MainSection from '@/components/Main/main'
 import styles from './newBomb.module.css'
-import ScrollRegion from '@/components/scrollRegion/scrollRegion'
 import Stepper, { Step } from '../../blocks/Components/Stepper/Stepper';
 import { useEffect, useState } from "react";
-import SearchBar from '@/components/SearchBar/searchBar';
-import { GiphyFetch } from '@giphy/js-fetch-api'
 import TargetProfile from '@/components/targetProfile/targetProfile';
-import Link from 'next/link'
-import { useRef } from 'react';
-import Crosshair from '../../blocks/Animations/Crosshair/Crosshair';
 import axios from 'axios';
-import Image from 'next/image'
-import  prisma  from '@/lib/prisma'
-import fs from "fs";
-import { div, object, span } from 'framer-motion/client';
 import User from "@/types/user.ts";
-import SuggestedProfile from '@/components/suggestedProfile/suggestedProfile';
-import targetProfile from '@/components/targetProfile/targetProfile';
+import Gif from '@/types/gif.ts'
+import Meme from '@/types/meme.ts'
 import { useSession } from 'next-auth/react';
-
-
-
-// Giphy API Settings
-
-    // Playground: https://codesandbox.io/p/sandbox/20kmp3zp9r?file=%2Fsrc%2Findex.ts
-    // API Docs: https://developers.giphy.com/docs/#implementation-options
-
-// const gf = new GiphyFetch('your api key')
-
-// fetch 10 gifs
-// const { data: gifs } = await gf.trending({ limit: 10 })
 
 interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {
     target: HTMLInputElement & EventTarget;
@@ -49,29 +27,29 @@ const NewBomb = () => {
     const [barPosition, setBarPosition] = useState("0")
 
     // State of Gifs and Memes from APIs
-    const [gifs, setGifs] = useState<any[]>([]);
-    const [memes, setMemes] = useState<any[]>([]);
+    const [gifs, setGifs] = useState<Gif[]>([]);
+    const [memes, setMemes] = useState<Meme[]>([]);
 
     // State of User Fetching from DB Xata
     const [users, setUsers] = useState<User[]>([]);
-    const [error, setError] = useState<string | null>(null);
+    // const [error, setError] = useState<string | null>(null);
 
     // State of Search Target User
-    const [searchedUser, setSearchedUser] = useState<User | null>(null);
+    // const [searchedUser, setSearchedUser] = useState<User | null>(null);
     const [foundUsers, setFoundUsers] = useState<User[] | null>(null);
 
     const [search, setSearch] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [gifTitle, setGifTitle] = useState<string>('');
-    const containerRef = useRef(null);
+    // const containerRef = useRef(null);
 
     // Session
-    const { data: session, status } = useSession();
+    const { data: session} = useSession();
 
     useEffect(() => {
         const foundUsers = users.filter(user => user.username && user.username.includes(search));
         setFoundUsers(foundUsers);
-    }, [searchedUser]);
+    }, [search, users]);
 
     // Fetching GIFs from Giphy
     const fetchGifs = async (query: string) => {
@@ -150,38 +128,12 @@ const NewBomb = () => {
             const data: User[] = await response.json();
             setUsers(data);
           } catch (err) {
-            setError((err as Error).message);
+            console.log(err)
           }
         }
 
         fetchUsers();
-        const fetchUser = async () => {
-            console.log("fetchUser Called");
-            if (session) {
-            console.log('if session entered')
-            try {
-                console.log("Try entered");
-                const postData = {
-                    content: String(selectedFile),
-                    senderId: session.user.id,
-                    receiverId: selectedTarget,
-                    message: bombMessage,
-                };
-                const res = await fetch(`/api/newBomb/${postData}`);
-                
-                if (!res.ok) {
-                    console.log("If NOT OK entered");
-                    throw new Error("Failed to fetch user");
-                }
-            } catch (err) {
-                setError((err as Error).message);
-            } finally {
-                setLoading(false);
-            }
-        };
-    
-        fetchUser();
-    }}, []);
+    }, [bombMessage, selectedFile, selectedTarget, session]);
     
     // Handle file selection
     const handleFileChange = (event: FileChangeEvent): void => {
@@ -211,34 +163,36 @@ const NewBomb = () => {
             console.log("handleNewPost Called");
             if (!session || !selectedFile) return;
             console.log("if session entered");
-        
-            try {
-                console.log("Try entered");
-                const postData = {
-                    content: String(selectedFile),
-                    senderId: session.user.id,
-                    receiverId: targetUser?.id,
-                    message: bombMessage,
-                };
-        
-                const res = await fetch(`/api/newBomb`, {  // ✅ Remove postData from URL
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(postData),  // ✅ Send data in the request body
-                });
-        
-                if (!res.ok) {
-                    throw new Error("Failed to post NewBomb");
+            if (session.user) {
+                try {
+
+                    console.log("Try entered");
+                    const postData = {
+                        content: String(selectedFile),
+                        senderId: session.user?.id,
+                        receiverId: targetUser?.id,
+                        message: bombMessage,
+                    };
+            
+                    const res = await fetch(`/api/newBomb`, {  // ✅ Remove postData from URL
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(postData),  // ✅ Send data in the request body
+                    });
+            
+                    if (!res.ok) {
+                        throw new Error("Failed to post NewBomb");
+                    }
+            
+                    console.log("If Response OK entered");
+                    console.log("Post sent Successfully");
+                } catch (err) {
+                    console.log(err)
+                } finally {
+                    setLoading(false);
                 }
-        
-                console.log("If Response OK entered");
-                console.log("Post sent Successfully");
-            } catch (err) {
-                setError((err as Error).message);
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -258,7 +212,7 @@ const NewBomb = () => {
                 console.log("USER QUE ESTOU A TENTAR IR BUSCAR: ", data)
                 setTargetUser(data);                    
               } catch (err) {
-                setError((err as Error).message);
+                console.log(err)
               } finally {
                 setLoading(false);
               }
@@ -270,20 +224,20 @@ const NewBomb = () => {
           }, [selectedTarget]);
     
    
-    const handleGifClick = (gif: any) => {
+    const handleGifClick = (gif: Gif) => {
         // setSelectedFile(gif.images.original.url);
         setSelectedFile(gif.images.fixed_height.webp);
         setPreview(gif.images.fixed_height.webp);
         setGifTitle(gif.title)
     }
 
-    const handleMemeClick = (meme: any) => {
+    const handleMemeClick = (meme: Meme) => {
         setSelectedFile(meme.url);
         setPreview(meme.url);
         setGifTitle(meme.name)
     }
 
-    interface SubmitEvent extends React.FormEvent<HTMLFormElement> {}
+    // interface SubmitEvent extends React.FormEvent<HTMLFormElement> {}
 
     // API Nav UI (Memes vs Gifs)
     const ListMemes = async () => {

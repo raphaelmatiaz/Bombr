@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma"; // Ensure this is correctly pointing to your Prisma client
 
 export async function GET(req: Request, { params }: { params: { username: string } }) {
-    const { username } = await params;
+    const { username } = params;
 
     console.log("Fetching user with identifier:", username);
 
@@ -29,7 +29,7 @@ export async function GET(req: Request, { params }: { params: { username: string
         }
 
         if (user) {
-            let sentPosts = await prisma.post.findMany({
+            const sentPosts = await prisma.post.findMany({
                 where: {
                     senderId: {
                         equals: user.id
@@ -37,7 +37,7 @@ export async function GET(req: Request, { params }: { params: { username: string
                 }
             })
 
-            let receivedPosts = await prisma.post.findMany({
+            const receivedPosts = await prisma.post.findMany({
                 where: {
                     receiverId: {
                         equals: user.id

@@ -3,20 +3,14 @@ import LinkToProfile from "../LinkToProfile/LinkToProfile"
 import FriendSuggestions from "../FriendSuggestions/friendSuggestions"
 import SuggestedProfile from "../suggestedProfile/suggestedProfile"
 import styles from './aside.module.css'
-// import { PrismaClient } from "@prisma/client";
-// import { User } from "../../types/user";
-// import { getUsers } from "../../lib/getUsers";
 import { useEffect, useState } from "react";
 import  User from "@/types/user";
-import Link from "next/link";
 import { useSession } from "next-auth/react"
 const Aside = ()  => {
 
-    // const users = await getUsers();
-    // console.log(users)
     const [users, setUsers] = useState<User[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
   
     useEffect(() => {
         async function fetchUsers() {

@@ -1,4 +1,4 @@
-import { useParams } from 'next/navigation'
+// import { useParams } from 'next/navigation'
 import styles from './suggestedProfile.module.css'
 import Link from 'next/link'
 

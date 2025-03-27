@@ -1,16 +1,10 @@
 "use client"
 
 import Navbar from "@/components/Navbar/navbar"
-import MainSection from "@/components/Main/main"
-import Aside from "@/components/Aside/Aside"
 import styles from './profile.module.css'
 import React, { useEffect, useState } from "react";
-// import { div } from "react";
-import ScrollRegion from "@/components/scrollRegion/scrollRegion"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
-// import { s } from "framer-motion/client"
-// import { url } from "inspector"
 
 function Profile() {
 
@@ -51,26 +45,25 @@ function Profile() {
                         )}
                         <div className={styles.profileInfo}>
                             <div className={styles.nameInfoWrapper}>
-                                {session?.user?.username && (
+                                {session?.user?.name && (
                                     <>
-                                        <h1 className={styles.userNickname}>{session?.user?.username}</h1>
-                                        <h2 className={styles.userFullName}>{session?.user?.username}</h2>
+                                        <h1 className={styles.userNickname}>{session?.user?.name}</h1>
+                                        <h2 className={styles.userFullName}>{session?.user?.name}</h2>
                                     </>
                                 )}
-                                {session?.user?.username && session?.user?.fullname && (
+                                {session?.user?.name && session?.user?.email && (
                                     <>
-                                        <h1 className={styles.userNickname}>{session?.user?.username}</h1>
-                                        <h2 className={styles.userFullName}>{session?.user?.fullname}</h2>
+                                        <h1 className={styles.userNickname}>{session?.user?.name}</h1>
+                                        <h2 className={styles.userFullName}>{session?.user?.email}</h2>
                                     </>
                                 )}
-                                {session?.user?.username === null && session?.user?.fullname === null && (
+                                {session?.user?.name === null && session?.user?.email === null && (
                                     <>
-                                        <h1 className={styles.userNickname}>{session?.user?.username || session?.user?.name}</h1>
-                                        <h2 className={styles.userFullName}>{session?.user?.fullname || session?.user?.name}</h2>
+                                        <h1 className={styles.userNickname}>{session?.user?.name || "Unknown User"}</h1>
+                                        <h2 className={styles.userFullName}>{session?.user?.email || "No Email Provided"}</h2>
                                     </>
                                 )}
-                                {/* <h1 className={styles.userNickname}>{session?.user?.username || session?.user?.name}</h1>
-                                <h2 className={styles.userFullName}>{session?.user?.fullname || session?.user?.name}</h2> */}
+                                
                             </div>
                             <div className={styles.globalStatsWrapper}>
                                 <span className={styles.statRow}>

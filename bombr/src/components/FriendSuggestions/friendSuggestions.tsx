@@ -1,5 +1,5 @@
 import styles from './friendSuggestions.module.css'
-import SuggestedProfile from '../suggestedProfile/suggestedProfile';
+
 
 //Nota: React.ReactNode é para o react aceitar todo 
 // o tipo de children serem passados no parent: strings, numbers, JSX, arrays, null ou undefined

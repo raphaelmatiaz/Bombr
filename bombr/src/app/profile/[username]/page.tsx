@@ -1,23 +1,20 @@
 'use client'
 
 import Navbar from "@/components/Navbar/navbar"
-import MainSection from "@/components/Main/main"
-import Aside from "@/components/Aside/Aside"
 import styles from './profile.module.css'
 import React, { useEffect, useState } from "react";
-import ScrollRegion from "@/components/scrollRegion/scrollRegion"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { use } from "react";
-import User from '@/types/user'
-import prisma from '@/lib/prisma'
+import User from '@/types/user.ts';
+import Post from '@/types/post.ts'
 
 function Profile({ params }: { params: Promise<{ username: string; fullname: string }> }) {
 
     const resolvedParams = use(params); // Unwrapping the promise
     const [postListType, setPostListType] = useState("received")
     const [barPosition, setBarPosition] = useState("0")
-    const { data: session, status } = useSession();
+    const { data: status } = useSession();
     const router = useRouter();
 
     // Fetching the User from db
@@ -25,13 +22,13 @@ function Profile({ params }: { params: Promise<{ username: string; fullname: str
     const [error, setError] = useState<string | null>(null);
 
     // Fetching the user's sent and received posts from db
-    const [posts, setPosts] = useState([]);
+    // const [posts, setPosts] = useState([]);
 
     const [loading, setLoading] = useState(true); // Track loading state
 
     // Redirect user to /home-feed if they are authenticated
     useEffect(() => {
-        if (status === "unauthenticated") {
+        if (!status) {
             router.push('/login');
         }
     }, [status, router]);
@@ -63,7 +60,7 @@ function Profile({ params }: { params: Promise<{ username: string; fullname: str
         if (resolvedParams.username) {
             fetchUser();
         }
-    }, []);
+    }, [resolvedParams.username]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -124,13 +121,6 @@ function Profile({ params }: { params: Promise<{ username: string; fullname: str
                             <article className={styles.userBio}>
                                 {currentUser ? (
                                     <>
-                                        
-                                        {/* <p>CurrentUser: {currentUser.username}</p>
-                                        <p>CurrentUser: {currentUser.fullName}</p>
-                                        <p>CurrentUser: {currentUser.name}</p>
-                                        <p>CurrentUser: {currentUser.id}</p>
-                                        <p>CurrentUser: {currentUser.email}</p>
-                                        <p>CurrentUser: {currentUser.image}</p> */}
 
                                     </>
                                 ) : null}
@@ -150,29 +140,20 @@ function Profile({ params }: { params: Promise<{ username: string; fullname: str
                         </div>
                     </nav>
                     <main className={styles.profileContentWrapper}>
-                        <ul className={styles.contentList}>
+                    <ul className={styles.contentList}>
+                        {/* Nota: Aqui não consegui atribuir o type 'Post' ao meu post sem haaver problemas, por isso usei 'any', e não cosegui usar 'Image' em vez de 'img' porque causava problemas com o 'src' attribute */}
                             {postListType === "received" && (
                                 <div>
-                                    {currentUser.receivedPosts.map((post: any) => (
-                                    <li key={post.id}>
-                                        <span>
-                                            <img src={post.content} alt="" />
-                                            <p>{post.message}</p>
-                                        </span>
-                                    </li>
+                                    {currentUser.receivedPosts.map((post: Post) => (
+                                        <img key={post.id} src={post.content} alt="Post image" />
                                     ))}
                                 </div>
                             )}
 
                             {postListType === "sent" && (
                                 <>
-                                    {currentUser.sentPosts.map((post: any) => (
-                                    <li key={post.id}>
-                                        <span>
-                                        <img src={post.content} alt="" />
-                                        <p>{post.message}</p>
-                                        </span>
-                                    </li>
+                                    {currentUser.sentPosts.map((post: Post) => (
+                                        <img key={post.id} src={post.content} alt="Post image" />
                                     ))}
                                 </>
                             )}
