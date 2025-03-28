@@ -35,8 +35,8 @@
 
 
 .userProfileUsername {
-    font-size: 1.6rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 
 .userProfilePic:hover {
@@ -48,8 +48,7 @@
     position: relative;
     bottom: -3.4rem;
     font-size: 1.2rem;
-    font-style: italic;
-    font-weight: bold;
+    font-style: normal;
 }
 
 .postContent {

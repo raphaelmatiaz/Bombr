@@ -141,35 +141,34 @@ function Profile({ params }: { params: Promise<{ username: string; fullname: str
                     </nav>
                     <main className={styles.profileContentWrapper}>
                     <ul className={styles.contentList}>
-    {postListType === "received" && (
-        <div>
-            {currentUser.receivedPosts.length === 0 ? (
-                <div className={styles.noBombsYet}>
-                    <p> 🕊️ Safe zone: This area has not received any bomb strike so far... 🕊️</p>
-                </div>
-                
-            ) : (
-                currentUser.receivedPosts.map((post: Post) => (
-                    <img key={post.id} src={post.content} alt="Post image" className={styles.postImage} />
-                ))
-            )}
-        </div>
-    )}
+                        {postListType === "received" && (
+                            <div>
+                                {currentUser.receivedPosts.length === 0 ? (
+                                    <div className={styles.noBombsYet}>
+                                        <p> 🕊️ Safe zone: This area has not received any bomb strike so far... 🕊️</p>
+                                    </div>
+                                    ) : (
+                                    currentUser.receivedPosts.map((post: Post) => (
+                                        <img key={post.id} src={post.content} alt="Post image" className={styles.postImage} />
+                                    ))
+                                )}
+                            </div>
+                            )}
 
-    {postListType === "sent" && (
-        <div>
-            {currentUser.sentPosts.length === 0 ? (
-                <div className={styles.noBombsYet}>
-                    <p>Preparing for battle: No bombs sent yet, but war will soon ring. Peace is not an option...</p>
-                </div>
-            ) : (
-                currentUser.sentPosts.map((post: Post) => (
-                    <img key={post.id} src={post.content} alt="Post image" />
-                ))
-            )}
-        </div>
-    )}
-</ul>
+                            {postListType === "sent" && (
+                                <div>
+                                    {currentUser.sentPosts.length === 0 ? (
+                                        <div className={styles.noBombsYet}>
+                                            <p>Preparing for battle: No bombs sent yet, but war will soon ring. Peace is not an option...</p>
+                                        </div>
+                                    ) : (
+                                        currentUser.sentPosts.map((post: Post) => (
+                                            <img key={post.id} src={post.content} alt="Post image" className={styles.postImage}/>
+                                        ))
+                                    )}
+                                </div>
+                            )}
+                        </ul>
                     </main>
                 </div>
             </main>

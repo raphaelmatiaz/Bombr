@@ -33,6 +33,15 @@
   margin: 0;
 }
 
+*:visited {
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
 html {
   font-size: var(--font-size);
 }
