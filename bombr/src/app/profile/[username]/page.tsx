@@ -87,8 +87,12 @@ function Profile({ params }: { params: Promise<{ username: string; fullname: str
 
                 <div className={styles.profileWrapper}>
                     <header className={styles.profileHeader}>
-
-                        <div className={styles.profilePic} style={{ backgroundImage: `url(/default-profile.png)` }}></div>
+                        {currentUser.image !== null ? (
+                             <div className={styles.profilePic} style={{ backgroundImage: `url(${currentUser.image})` }}></div>
+                        ): (
+                            
+                            <div className={styles.profilePic} style={{ backgroundImage: `url(/default-profile.png)` }}></div>
+                        )}
 
                         <div className={styles.profileInfo}>
                             <div className={styles.nameInfoWrapper}>
@@ -159,7 +163,7 @@ function Profile({ params }: { params: Promise<{ username: string; fullname: str
                                 <div>
                                     {currentUser.sentPosts.length === 0 ? (
                                         <div className={styles.noBombsYet}>
-                                            <p>Preparing for battle: No bombs sent yet, but war will soon ring. Peace is not an option...</p>
+                                            <p>No bombs sent yet</p>
                                         </div>
                                     ) : (
                                         currentUser.sentPosts.map((post: Post) => (

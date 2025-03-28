@@ -69,11 +69,14 @@ function Home() {
         <ScrollRegion>
           <div className={styles.scrollRegionStyleWrapper}>
             
-          {posts.slice().reverse().map((post) => (
-            <span key={post.id}>
-              <NewPost id={post.id} message={post.message} senderId={post.senderId} receiverId={post.receiverId} post={post} />
-            </span>
-          ))}
+          {posts
+            .slice()
+            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) // Sort newest first
+            .map((post) => (
+              <span key={post.id}>
+                <NewPost id={post.id} message={post.message} senderId={post.senderId} receiverId={post.receiverId} post={post} />
+              </span>
+            ))}
               
           </div>
         </ScrollRegion>
