@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 
 const LinkToProfile = () => {
 
-    const { data: session } = useSession()
+    const { data: session  } = useSession()
 
     return (
         <>
@@ -23,7 +23,7 @@ const LinkToProfile = () => {
             <>
                 <Link className={styles.link} href={`/profile/${session?.user?.username}`}>
                     <div className={styles.wrapper}>
-                        <div className={styles.profileImage} style={{backgroundImage: `url('/default-profile.png')`}}></div>
+                        <div className={styles.profileImage} style={{backgroundImage: `url(${session?.user?.image})`}}></div>
                         <p className={styles.profileUsername}>{session?.user?.username}</p>
                     </div>
                 </Link>
