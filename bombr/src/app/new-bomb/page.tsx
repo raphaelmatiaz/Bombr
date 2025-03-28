@@ -33,27 +33,33 @@ const NewBomb = () => {
     const [memes, setMemes] = useState<Meme[]>([]);
 
     // State of User Fetching from DB Xata
-    const [users, setUsers] = useState<User[]>([]);
+
     // const [error, setError] = useState<string | null>(null);
 
     // State of Search Target User
     // const [searchedUser, setSearchedUser] = useState<User | null>(null);
-    const [foundUsers, setFoundUsers] = useState<User[] | null>(null);
+    // const [foundUsers, setFoundUsers] = useState<User[] | null>(null);
 
     const [search, setSearch] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [gifTitle, setGifTitle] = useState<string>('');
     
+
+
+    const [users, setUsers] = useState<User[]>([]);
+    const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [error, setError] = useState<string | null>(null);
     // Shooting target animation effect
     // const containerRef = useRef(null);
 
     // Session
     const { data: session} = useSession();
 
-    useEffect(() => {
-        const foundUsers = users.filter(user => user.username && user.username.includes(search));
-        setFoundUsers(foundUsers);
-    }, [search, users]);
+    // useEffect(() => {
+    //     const foundUsers = users.filter(user => user.username && user.username.includes(search));
+    //     setFoundUsers(foundUsers);
+    // }, [search, users]);
 
     // Fetching GIFs from Giphy
     const fetchGifs = async (query: string) => {
@@ -123,21 +129,55 @@ const NewBomb = () => {
            
     }, [apiType]);
 
+    // useEffect(() => {
+    //     async function fetchUsers() {
+    //       try {
+    //         const response = await fetch("/api/users");
+    //         if (!response.ok) throw new Error("Failed to fetch users");
+
+    //         const data: User[] = await response.json();
+    //         setUsers(data);
+    //       } catch (err) {
+    //         console.log(err)
+    //       }
+    //     }
+
+    //     fetchUsers();
+    // }, [bombMessage, selectedFile, selectedTarget, session]);
+
+
+    // Fetch users
     useEffect(() => {
         async function fetchUsers() {
           try {
             const response = await fetch("/api/users");
             if (!response.ok) throw new Error("Failed to fetch users");
-
+    
             const data: User[] = await response.json();
             setUsers(data);
+            setFilteredUsers(data);
           } catch (err) {
-            console.log(err)
+            console.log(error)
+            setError((err as Error).message);
           }
         }
-
         fetchUsers();
-    }, [bombMessage, selectedFile, selectedTarget, session]);
+      }, []);
+    
+      useEffect(() => {
+        const filtered = users.filter((user) =>
+          user.username?.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredUsers(filtered);
+      }, [searchTerm, users]);
+
+      // Handle search of a user
+      useEffect(() => {
+        const filtered = users.filter((user) =>
+          user.username?.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredUsers(filtered);
+      }, [searchTerm, users]);
     
     // Handle file selection
     const handleFileChange = (event: FileChangeEvent): void => {
@@ -354,13 +394,13 @@ const NewBomb = () => {
                             </div>
                                 <h2>Chosose your Target  </h2>
                                 {selectedTarget && <p className={styles.selectedFile}><em className={styles.em}>🎯 Selected Target :</em> {selectedTarget} 🎯</p>}
-                                <input className={styles.searchBar} style={{marginBottom: "32px"}} type="text" placeholder='Search' />
+                                <input className={styles.searchBar} style={{marginBottom: "32px"}} type="text" placeholder='Search for a user' onChange={(e) => setSearchTerm(e.target.value)}/>
                                 {/* <p>{selectedTarget}</p>
                                 <p>{targetUser?.id}</p> */}
                                 <ul className={styles.targetProfilesList}>
                                         
-                                        {foundUsers && foundUsers.length > 0 ? (
-                                            foundUsers.filter((user) => session?.user && user.email !== session.user.email).map((user) => (
+                                        {filteredUsers && filteredUsers.length > 0 ? (
+                                            filteredUsers.filter((user) => session?.user && user.email !== session.user.email).map((user) => (
                                                 <li key={user.id} onClick={() => user.username && setSelectedTarget(user.username)} className={styles.targetProfileWrapaper}>
                                                     <TargetProfile
                                                         name={user.name ?? ''} 

@@ -221,6 +221,10 @@
     box-shadow: var(--box-shadowA);
 }
 
+.postImage {
+    max-width: 180px;
+}
+
 @media (max-width: 1230px) {
 
     .asideWrapper {

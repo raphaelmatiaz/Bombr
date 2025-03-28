@@ -46,15 +46,21 @@
 
 .bombedBy {
     position: relative;
-    bottom: -3.2rem;
-    font-size: 1rem;
+    bottom: -3.4rem;
+    font-size: 1.2rem;
     font-style: italic;
+    font-weight: bold;
 }
 
 .postContent {
     height: 400px;
     background: var(--gradient-placeholder);
     border-top: 1px solid var(--color-greyB);
+}
+
+.postContent2 {
+    min-width: 100%;
+    max-width: 100%;
 }
 
 .postFooter {

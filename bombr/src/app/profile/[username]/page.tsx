@@ -150,7 +150,7 @@ function Profile({ params }: { params: Promise<{ username: string; fullname: str
                 
             ) : (
                 currentUser.receivedPosts.map((post: Post) => (
-                    <img key={post.id} src={post.content} alt="Post image" />
+                    <img key={post.id} src={post.content} alt="Post image" className={styles.postImage} />
                 ))
             )}
         </div>
