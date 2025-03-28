@@ -1,40 +1,20 @@
-// import type { NextConfig } from "next";
+import type { NextConfig } from "next";
 
-// const nextConfig: NextConfig = {
-//   images: {
-//     remotePatterns: [
-//       {
-//         protocol: 'https',
-//         hostname: 'lh3.googleusercontent.com'
-//       },
-//       {
-//         protocol: 'https',
-//         hostname: 'avatars.githubcontent.com'
-//       },
-//     ],
-//   },
-  
-//   /* config options here */
-// };
-
-// export default nextConfig;
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '',
+        hostname: 'lh3.googleusercontent.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubcontent.com'
       },
     ],
   },
-  eslint: {
-    ignoreDuringBuilds: true, 
-  },
-  typescript:{
-    ignoreBuildErrors: true,
-  }
+  
+  /* config options here */
 };
 
-module.exports = nextConfig;
+export default nextConfig;
