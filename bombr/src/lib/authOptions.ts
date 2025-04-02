@@ -62,20 +62,21 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name,
           profileId: user.profileId,
+          username: user.username,
         };
       },
     }),
   ],
   
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: Record<string, unknown>; user?: { id: string; email: string; name?: string; profileId?: string; username?: string } }) {
       // If user exists (i.e., first login), assign its values to the token
       if (user) {
         token.user = user;
       } else {
         // Fetch the user from the database to include all fields
         const dbUser = await prisma.user.findUnique({
-          where: { email: token.email ?? undefined }, // Ensure email is not null
+          where: { email: typeof token.email === "string" ? token.email : undefined }, // Ensure email is a string
         });
   
         if (dbUser) {
@@ -94,7 +95,11 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   
-    async session({ session, token }) {
+    // async session({ session, token }: { session: import("next-auth").Session; token: import("next-auth").JWT }) {
+    //   session.user = token.user as typeof session.user;
+    //   return session;
+    // },
+    async session({ session, token }: { session: import("next-auth").Session; token: import("next-auth").JWT }) {
       session.user = token.user as typeof session.user;
       return session;
     },

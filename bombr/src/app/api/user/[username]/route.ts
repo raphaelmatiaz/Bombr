@@ -66,7 +66,6 @@ import prisma from "@/lib/prisma"; // Ensure this correctly points to your Prism
 
 export async function GET(req: NextRequest, context: { params: { username: string } }) {
     const { username } = context.params; // Ensure params are extracted correctly
-
     console.log("Fetching user with identifier:", username);
 
     try {
